@@ -38,6 +38,15 @@ document.addEventListener("DOMContentLoaded", function(event) {
         resonance: 3.5,   //0 to 4
         bufferSize: 4096  //256 to 16384
     });
+    var convolver = new tuna.Convolver({
+        highCut: 22050,                         //20 to 22050
+        lowCut: 17640,                             //20 to 22050
+        dryLevel: 1,                            //0 to 1+
+        wetLevel: 1,                            //0 to 1+
+        level: 1,                               //0 to 1+, adjusts total output of both wet and dry
+        impulse: "/impulse_rev.wav",    //the path to your impulse response
+        bypass: 0
+    }); 
     // console.log(chorus);
 
     activeOscillators = {}
@@ -105,12 +114,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
         var lfo = audioCtx.createOscillator(); 
         lfo.frequency.value = 12; 
-        lfo.type = "triangle";
-        oscMain1.type = "triangle";
-        oscMain2.type = "triangle";
-        oscSecondary1.type = "triangle";
-        oscSecondary2.type = "triangle";
-        oscSecondary3.type = "triangle";
+        lfo.type = "sawtooth";
+        oscMain1.type = "sawtooth";
+        oscMain2.type = "sawtooth";
+        oscSecondary1.type = "sawtooth";
+        oscSecondary2.type = "sawtooth";
+        oscSecondary3.type = "sawtooth";
 
             
         var lowpassFilter = audioCtx.createBiquadFilter();
@@ -128,6 +137,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
         oscSecondary3.detune.setValueAtTime(10.1, audioCtx.currentTime)
 
         var mainGain = audioCtx.createGain(); 
+        var secondGain = audioCtx.createGain(); 
+        var thirdGain = audioCtx.createGain(); 
         mainGain.gain.setValueAtTime(0, audioCtx.currentTime)
   
 
@@ -149,7 +160,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
         oscSecondary3.connect(lowpassFilter);
 
         lowpassFilter.connect(mainGain)
-        mainGain.connect(moog).connect(audioCtx.destination)
+        mainGain.connect(moog)
+        moog.connect(secondGain)
+        // secondGain.connect(chorus)
+        // chorus.connect(thirdGain)
+        secondGain.connect(convolver)
+        convolver.connect(audioCtx.destination)
 
         oscMain1.start()
         oscMain2.start()
