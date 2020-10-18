@@ -1,9 +1,45 @@
 var audioCtx;
 var keyboardFrequencyMap;
+var tuna;
+var drive;
+var chorus;
 
 document.addEventListener("DOMContentLoaded", function(event) {
-
+    
     audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    tuna = new Tuna(audioCtx);
+    console.log(tuna);
+
+    chorus = new tuna.Chorus({
+        rate: 1.5,
+        feedback: 0.2,
+        delay: 0.0045,
+        bypass: 0
+    })
+    drive = new tuna.Overdrive({
+        outputGain: 0,           //-42 to 0 in dB
+        drive: 1,                //0 to 1
+        curveAmount: 0.725,      //0 to 1
+        algorithmIndex: 0,       //0 to 5, selects one of the drive algorithms
+        bypass: 0
+    });
+    var compressor = new tuna.Compressor({
+        threshold: -20,    //-100 to 0
+        makeupGain: 1,     //0 and up (in decibels)
+        attack: 1,         //0 to 1000
+        release: 250,      //0 to 3000
+        ratio: 4,          //1 to 20
+        knee: 5,           //0 to 40
+        automakeup: false, //true/false
+        bypass: 0
+    });
+    var moog = new tuna.MoogFilter({
+        cutoff: 0.065,    //0 to 1
+        resonance: 3.5,   //0 to 4
+        bufferSize: 4096  //256 to 16384
+    });
+    // console.log(chorus);
+
     activeOscillators = {}
     activeNodes = {}
     activeLFO = {}
@@ -51,9 +87,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
     function brass(key, high){
         var f;
         if (high)
-            f = keyboardFrequencyMap[key]/4; 
-        else 
             f = keyboardFrequencyMap[key]/2; 
+        else 
+            f = keyboardFrequencyMap[key]/4; 
 
         var oscMain1 = audioCtx.createOscillator();
         var oscMain2 = audioCtx.createOscillator();
@@ -77,13 +113,13 @@ document.addEventListener("DOMContentLoaded", function(event) {
         oscSecondary3.type = "triangle";
 
             
-        var highPassFilter = audioCtx.createBiquadFilter();
-        highPassFilter.type = "highpass";
-        highPassFilter.frequency.setValueAtTime(0, audioCtx.currentTime)
+        var lowpassFilter = audioCtx.createBiquadFilter();
+        lowpassFilter.type = "lowpass";
+        // highPassFilter.frequency.setValueAtTime(0, audioCtx.currentTime)
         // highPassFilter.frequency.value = 20; 
     
-        highPassFilter.Q.value = 60;
-
+        lowpassFilter.Q.value = 20;
+        // lowpassFilter.frequency.value = 1200
 
         oscMain1.detune.setValueAtTime(0.1, audioCtx.currentTime)
         oscMain2.detune.setValueAtTime(-0.1, audioCtx.currentTime)
@@ -95,21 +131,25 @@ document.addEventListener("DOMContentLoaded", function(event) {
         mainGain.gain.setValueAtTime(0, audioCtx.currentTime)
   
 
-        mainGain.gain.setValueAtTime(0.5, audioCtx.currentTime + 0.0015)
-        mainGain.gain.setValueAtTime(0.3, audioCtx.currentTime + 0.0339)
+        mainGain.gain.linearRampToValueAtTime(0.5, audioCtx.currentTime + 0.0015)
+        mainGain.gain.linearRampToValueAtTime(0.3, audioCtx.currentTime + 0.0339)
 
-        highPassFilter.gain.setValueAtTime(0, audioCtx.currentTime);
-        highPassFilter.gain.setValueAtTime(100, audioCtx.currentTime+0.0102);
-        highPassFilter.gain.setValueAtTime(73, audioCtx.currentTime+1.35);
-        lfo.connect(highPassFilter.frequency)
+        lowpassFilter.gain.setValueAtTime(0, audioCtx.currentTime);
+        lowpassFilter.gain.linearRampToValueAtTime(100, audioCtx.currentTime+0.0102);
+        lowpassFilter.gain.linearRampToValueAtTime(73, audioCtx.currentTime+1.35);
+        lowpassFilter.frequency.setValueAtTime(0, audioCtx.currentTime);
+        lowpassFilter.frequency.linearRampToValueAtTime(1000, audioCtx.currentTime+0.0102);
+        lowpassFilter.frequency.setValueAtTime(700, audioCtx.currentTime+1.35);
+        lfo.connect(lowpassFilter.frequency)
 
-        oscMain1.connect(highPassFilter);
-        oscMain2.connect(highPassFilter);
-        oscSecondary1.connect(highPassFilter);
-        oscSecondary2.connect(highPassFilter);
-        oscSecondary3.connect(highPassFilter);
+        oscMain1.connect(lowpassFilter);
+        oscMain2.connect(lowpassFilter);
+        oscSecondary1.connect(lowpassFilter);
+        oscSecondary2.connect(lowpassFilter);
+        oscSecondary3.connect(lowpassFilter);
 
-        highPassFilter.connect(mainGain).connect(audioCtx.destination)
+        lowpassFilter.connect(mainGain)
+        mainGain.connect(moog).connect(audioCtx.destination)
 
         oscMain1.start()
         oscMain2.start()
@@ -225,13 +265,17 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 
     
-    function violinOscillator(key){
+    function strings(key, high){
+        var f;
+        if (high)
+            f = keyboardFrequencyMap[key]; 
+        else 
+            f = keyboardFrequencyMap[key]/4; 
 
+        var oscMain1 = audioCtx.createOscillator();
     }
 
-    function celloOscillator(key){
-
-    }
+    
 
     function drumsOscillator(key){
 
@@ -282,9 +326,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 winds(key, true);
                 break;
         }
-
-
-
     }
 
 
