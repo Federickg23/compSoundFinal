@@ -100,6 +100,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         else 
             f = keyboardFrequencyMap[key]/4; 
 
+        
         var oscMain1 = audioCtx.createOscillator();
         var oscMain2 = audioCtx.createOscillator();
         var oscSecondary1 = audioCtx.createOscillator();
@@ -114,27 +115,30 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
         var lfo = audioCtx.createOscillator(); 
         lfo.frequency.value = 12; 
-        lfo.type = "sawtooth";
-        oscMain1.type = "sawtooth";
-        oscMain2.type = "sawtooth";
-        oscSecondary1.type = "sawtooth";
-        oscSecondary2.type = "sawtooth";
-        oscSecondary3.type = "sawtooth";
-
+        var synthType = "sawtooth";
+        lfo.type = synthType;
+        oscMain1.type = synthType;
+        oscMain2.type = synthType;
+        oscSecondary1.type = synthType;
+        oscSecondary2.type = synthType;
+        oscSecondary3.type = synthType;
+        //Set to sawtooth because that one sounds the most like a brassy sound
             
+
         var lowpassFilter = audioCtx.createBiquadFilter();
         lowpassFilter.type = "lowpass";
-        // highPassFilter.frequency.setValueAtTime(0, audioCtx.currentTime)
-        // highPassFilter.frequency.value = 20; 
-    
+        //Some nice friendly low warm frequencies for our brass section
+
         lowpassFilter.Q.value = 20;
-        // lowpassFilter.frequency.value = 1200
+        //Gets rid of weird bumps in the waves, feel free to play w this value
 
         oscMain1.detune.setValueAtTime(0.1, audioCtx.currentTime)
         oscMain2.detune.setValueAtTime(-0.1, audioCtx.currentTime)
         oscSecondary1.detune.setValueAtTime(10, audioCtx.currentTime)
         oscSecondary2.detune.setValueAtTime(9.9, audioCtx.currentTime)
         oscSecondary3.detune.setValueAtTime(10.1, audioCtx.currentTime)
+        //Basically trying to make the timbre of a brass sound, not sure if it works? Can 
+        //def play around with these as well
 
         var mainGain = audioCtx.createGain(); 
         var secondGain = audioCtx.createGain(); 
@@ -142,9 +146,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
         mainGain.gain.setValueAtTime(0, audioCtx.currentTime)
   
 
+        //sound envelope
         mainGain.gain.linearRampToValueAtTime(0.5, audioCtx.currentTime + 0.0015)
         mainGain.gain.linearRampToValueAtTime(0.3, audioCtx.currentTime + 0.0339)
 
+        //Filter envelope
         lowpassFilter.gain.setValueAtTime(0, audioCtx.currentTime);
         lowpassFilter.gain.linearRampToValueAtTime(100, audioCtx.currentTime+0.0102);
         lowpassFilter.gain.linearRampToValueAtTime(73, audioCtx.currentTime+1.35);
@@ -153,19 +159,22 @@ document.addEventListener("DOMContentLoaded", function(event) {
         lowpassFilter.frequency.setValueAtTime(700, audioCtx.currentTime+1.35);
         lfo.connect(lowpassFilter.frequency)
 
+
         oscMain1.connect(lowpassFilter);
         oscMain2.connect(lowpassFilter);
         oscSecondary1.connect(lowpassFilter);
         oscSecondary2.connect(lowpassFilter);
         oscSecondary3.connect(lowpassFilter);
 
+
+        //Connect to moog module (from tunajs) and convolver for funky fresh sounds 
         lowpassFilter.connect(mainGain)
         mainGain.connect(moog)
         moog.connect(secondGain)
-        // secondGain.connect(chorus)
-        // chorus.connect(thirdGain)
         secondGain.connect(convolver)
         convolver.connect(audioCtx.destination)
+
+        //TODO: Test if reversing the order in which things are connected changes the sound
 
         oscMain1.start()
         oscMain2.start()
@@ -174,21 +183,18 @@ document.addEventListener("DOMContentLoaded", function(event) {
         oscSecondary3.start()
         lfo.start()
 
+        //Throw all the bois in activeOscillators so they can be stopped, might need more info in here
+        //might also need to rewrite keyup for other methods
         activeOscillators[key] = {
-            oscMain1 : oscMain1,
-            oscMain2 : oscMain2,
-            oscSecondary1 : oscSecondary1, 
-            oscSecondary2 : oscSecondary2, 
-            oscSecondary3 : oscSecondary3, 
-            mainGain : mainGain, 
-            lfo : lfo,  
+            oscillators : [oscMain1, oscMain2, oscSecondary1, oscSecondary2, oscSecondary3, lfo],
+            gains : [mainGain, secondGain], 
         }
-
 
     }
 
     function winds(key, high){
-                
+
+        //Essentially the same as brass method just without the moog module 
         var f;
         if (high)
             f = keyboardFrequencyMap[key]; 
@@ -234,6 +240,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         var mainGain = audioCtx.createGain(); 
         mainGain.gain.setValueAtTime(0, audioCtx.currentTime)
 
+        //Convolver stolen from lab3 because I felt it gave a breathy sound to whatever was playing
         var convolver = audioCtx.createConvolver(),
             noiseBuffer = audioCtx.createBuffer(2, 0.5 * audioCtx.sampleRate, audioCtx.sampleRate),
             left = noiseBuffer.getChannelData(0),
@@ -268,13 +275,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
         lfo.start()
 
         activeOscillators[key] = {
-            oscMain1 : oscMain1,
-            oscMain2 : oscMain2,
-            oscSecondary1 : oscSecondary1, 
-            oscSecondary2 : oscSecondary2, 
-            oscSecondary3 : oscSecondary3, 
-            mainGain : mainGain, 
-            lfo : lfo,  
+            oscillators : [oscMain1, oscMain2, oscSecondary1, oscSecondary2, oscSecondary3, lfo],
+            gains : [mainGain], 
         }
 
     }
@@ -288,9 +290,90 @@ document.addEventListener("DOMContentLoaded", function(event) {
         else 
             f = keyboardFrequencyMap[key]/4; 
 
-        var oscMain1 = audioCtx.createOscillator();
-    }
+        var type = "sawtooth";
 
+        var oscMain1 = audioCtx.createOscillator();
+        var oscMain2 = audioCtx.createOscillator();
+        var oscMain3 = audioCtx.createOscillator();
+        var oscMain4 = audioCtx.createOscillator();
+        var oscMain5 = audioCtx.createOscillator();
+        var oscMain6 = audioCtx.createOscillator();
+        var oscMain7 = audioCtx.createOscillator();
+        
+        oscMain1.type = type 
+        oscMain2.type = type 
+        oscMain3.type = type 
+        oscMain4.type = type 
+        oscMain5.type = type 
+        oscMain6.type = type 
+        oscMain7.type = type 
+  
+        oscMain1.frequency.value = f
+        oscMain2.frequency.value = f
+        oscMain3.frequency.value = f
+        oscMain4.frequency.value = f
+        oscMain5.frequency.value = f
+        oscMain6.frequency.value = f
+        oscMain7.frequency.value = f
+
+        oscMain1.detune.setValueAtTime(-0.3, audioCtx.currentTime)
+        oscMain2.detune.setValueAtTime(-0.2, audioCtx.currentTime)
+        oscMain3.detune.setValueAtTime(-0.1, audioCtx.currentTime)
+        oscMain4.detune.setValueAtTime(0, audioCtx.currentTime)
+        oscMain5.detune.setValueAtTime(0.1, audioCtx.currentTime)
+        oscMain6.detune.setValueAtTime(0.2, audioCtx.currentTime)
+
+        
+        var mainGain = audioCtx.createGain()
+        var secondGain = audioCtx.createGain()
+        var thirdGain = audioCtx.createGain()
+        var fourthGain = audioCtx.createGain()
+
+        oscMain1.connect(mainGain)
+        oscMain2.connect(mainGain)
+        oscMain3.connect(mainGain)
+        oscMain4.connect(mainGain)
+        oscMain5.connect(mainGain)
+        oscMain6.connect(mainGain)
+        oscMain7.connect(mainGain)
+
+        mainGain.connect(moog)
+        
+        moog.connect(secondGain)
+        secondGain.connect(drive)
+        drive.connect(thirdGain)
+        thirdGain.connect(convolver)
+        convolver.connect(fourthGain)
+        fourthGain.connect(compressor)
+        compressor.connect(audioCtx.destination)
+
+        mainGain.gain.setValueAtTime(0, audioCtx.currentTime)
+        mainGain.gain.linearRampToValueAtTime(0.5, audioCtx.currentTime + 1.5)
+        mainGain.gain.linearRampToValueAtTime(0.3, audioCtx.currentTime + 4)
+        secondGain.gain.linearRampToValueAtTime(0.5, audioCtx.currentTime + 1.5)
+        secondGain.gain.linearRampToValueAtTime(0.3, audioCtx.currentTime + 4)
+        thirdGain.gain.linearRampToValueAtTime(0.5, audioCtx.currentTime + 1.5)
+        thirdGain.gain.linearRampToValueAtTime(0.3, audioCtx.currentTime + 4)
+        moog.automate("cutoff", 0, 0, 0)
+        moog.automate("cutoff", 0.1, 1000, 0)
+        moog.automate("cutoff", 0.06, 3000, audioCtx.currentTime + 1)
+        
+
+        oscMain1.start()
+        oscMain2.start()
+        oscMain3.start()
+        oscMain4.start()
+        oscMain5.start()
+        oscMain6.start()
+        oscMain7.start()
+
+        activeOscillators[key] = {
+            oscillators : [oscMain1, oscMain2, oscMain3, oscMain4, oscMain5, oscMain6, oscMain7],
+            gains : [mainGain, secondGain, thirdGain], 
+        }
+
+
+    }
     
 
     function drumsOscillator(key){
@@ -351,7 +434,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     }
 
-    function pianoOscillator(key){
+    function piano(key){
 
     }
 
@@ -362,20 +445,18 @@ document.addEventListener("DOMContentLoaded", function(event) {
         
         if (keyboardFrequencyMap[key] && activeOscillators[key]) {
         
-            const {oscMain1, oscMain2, oscSecondary1, oscSecondary2, oscSecondary3, mainGain, lfo} =  activeOscillators[key];
+            const {oscillators, gains} =  activeOscillators[key];
             
-            mainGain.gain.cancelScheduledValues(audioCtx.currentTime)
-            oscMain1.stop(audioCtx.currentTime + 0.002)
-            oscMain2.stop(audioCtx.currentTime + 0.002)
-            oscSecondary1.stop(audioCtx.currentTime + 0.002)
-            oscSecondary2.stop(audioCtx.currentTime + 0.002)
-            oscSecondary3.stop(audioCtx.currentTime + 0.002)
-            mainGain.gain.setValueAtTime(0, audioCtx.currentTime + 0.002)
-
-            
-            delete activeOscillators[key];
+            for(var i = 0; i < oscillators.length; i++){
+                oscillators[i].stop(audioCtx.currentTime + 0.02)
+            }
+            for(var g = 0; g < gains.length; g++){
+                gains[g].gain.cancelScheduledValues(audioCtx.currentTime)
+                gains[g].gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.02)
+            }
         }
-        
+        delete activeOscillators[key];
+    
     }
 
     function playNote(key){
@@ -396,6 +477,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 winds(key, true);
                 break;
             case "5":
+                strings(key, true); 
+                break; 
+            case "6":
+                strings(key, false); 
+                break; 
+            case "7":
                 drumsOscillator();
                 break;
         }
