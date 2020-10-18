@@ -48,10 +48,13 @@ document.addEventListener("DOMContentLoaded", function(event) {
         }
     }
     
-    function lowbrass(key){
-        
-        var f = keyboardFrequencyMap[key]/4; 
-        
+    function brass(key, high){
+        var f;
+        if (high)
+            f = keyboardFrequencyMap[key]/4; 
+        else 
+            f = keyboardFrequencyMap[key]/2; 
+
         var oscMain1 = audioCtx.createOscillator();
         var oscMain2 = audioCtx.createOscillator();
         var oscSecondary1 = audioCtx.createOscillator();
@@ -128,10 +131,14 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     }
 
-    function lowWinds(key){
+    function winds(key, high){
                 
-        var f = keyboardFrequencyMap[key]/4; 
-        
+        var f;
+        if (high)
+            f = keyboardFrequencyMap[key]; 
+        else 
+            f = keyboardFrequencyMap[key]/4; 
+
         var oscMain1 = audioCtx.createOscillator();
         var oscMain2 = audioCtx.createOscillator();
         var oscSecondary1 = audioCtx.createOscillator();
@@ -216,172 +223,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     }
 
-    function highWinds(key){
-                
-        var f = keyboardFrequencyMap[key]; 
-        
-        var oscMain1 = audioCtx.createOscillator();
-        var oscMain2 = audioCtx.createOscillator();
-        var oscSecondary1 = audioCtx.createOscillator();
-        var oscSecondary2 = audioCtx.createOscillator();
-        var oscSecondary3 = audioCtx.createOscillator();
-        oscMain1.frequency.value = f; 
-        oscMain2.frequency.value = f; 
-        oscSecondary1.frequency.value = f;
-        oscSecondary2.frequency.value = f;
-        oscSecondary3.frequency.value = f;
 
-
-        var lfo = audioCtx.createOscillator(); 
-        lfo.frequency.value = 12; 
-        lfo.type = "triangle";
-        oscMain1.type = "triangle";
-        oscMain2.type = "triangle";
-        oscSecondary1.type = "triangle";
-        oscSecondary2.type = "triangle";
-        oscSecondary3.type = "triangle";
-
-            
-        var highPassFilter = audioCtx.createBiquadFilter();
-        highPassFilter.type = "highpass";
-        highPassFilter.frequency.setValueAtTime(0, audioCtx.currentTime)
-        // highPassFilter.frequency.value = 20; 
-    
-        highPassFilter.Q.value = 60;
-
-
-        oscMain1.detune.setValueAtTime(0.1, audioCtx.currentTime)
-        oscMain2.detune.setValueAtTime(-0.1, audioCtx.currentTime)
-        oscSecondary1.detune.setValueAtTime(10, audioCtx.currentTime)
-        oscSecondary2.detune.setValueAtTime(9.9, audioCtx.currentTime)
-        oscSecondary3.detune.setValueAtTime(10.1, audioCtx.currentTime)
-
-        var mainGain = audioCtx.createGain(); 
-        mainGain.gain.setValueAtTime(0, audioCtx.currentTime)
-
-        var convolver = audioCtx.createConvolver(),
-            noiseBuffer = audioCtx.createBuffer(2, 0.5 * audioCtx.sampleRate, audioCtx.sampleRate),
-            left = noiseBuffer.getChannelData(0),
-            right = noiseBuffer.getChannelData(1);
-        for (var i = 0; i < noiseBuffer.length; i++) {
-            left[i] = Math.random() * 2 - 1;
-            right[i] = Math.random() * 2 - 1;
-        }
-        convolver.buffer = noiseBuffer;     
-
-        mainGain.gain.setValueAtTime(0.5, audioCtx.currentTime + 0.0015)
-        mainGain.gain.setValueAtTime(0.3, audioCtx.currentTime + 0.0339)
-
-        highPassFilter.gain.setValueAtTime(0, audioCtx.currentTime);
-        highPassFilter.gain.setValueAtTime(100, audioCtx.currentTime+0.0102);
-        highPassFilter.gain.setValueAtTime(73, audioCtx.currentTime+1.35);
-        lfo.connect(highPassFilter.frequency)
-
-        oscMain1.connect(highPassFilter);
-        oscMain2.connect(highPassFilter);
-        oscSecondary1.connect(highPassFilter);
-        oscSecondary2.connect(highPassFilter);
-        oscSecondary3.connect(highPassFilter);
-
-        highPassFilter.connect(convolver).connect(mainGain).connect(audioCtx.destination)
-
-        oscMain1.start()
-        oscMain2.start()
-        oscSecondary1.start()
-        oscSecondary2.start()
-        oscSecondary3.start()
-        lfo.start()
-
-        activeOscillators[key] = {
-            oscMain1 : oscMain1,
-            oscMain2 : oscMain2,
-            oscSecondary1 : oscSecondary1, 
-            oscSecondary2 : oscSecondary2, 
-            oscSecondary3 : oscSecondary3, 
-            mainGain : mainGain, 
-            lfo : lfo,  
-        }
-
-    }
-
-    function highbrass(key){
-                
-        var f = keyboardFrequencyMap[key]/2; 
-        
-        var oscMain1 = audioCtx.createOscillator();
-        var oscMain2 = audioCtx.createOscillator();
-        var oscSecondary1 = audioCtx.createOscillator();
-        var oscSecondary2 = audioCtx.createOscillator();
-        var oscSecondary3 = audioCtx.createOscillator();
-        oscMain1.frequency.value = f; 
-        oscMain2.frequency.value = f; 
-        oscSecondary1.frequency.value = f;
-        oscSecondary2.frequency.value = f;
-        oscSecondary3.frequency.value = f;
-
-
-        var lfo = audioCtx.createOscillator(); 
-        lfo.frequency.value = 12; 
-        lfo.type = "triangle";
-        oscMain1.type = "triangle";
-        oscMain2.type = "triangle";
-        oscSecondary1.type = "triangle";
-        oscSecondary2.type = "triangle";
-        oscSecondary3.type = "triangle";
-
-            
-        var highPassFilter = audioCtx.createBiquadFilter();
-        highPassFilter.type = "highpass";
-        highPassFilter.frequency.setValueAtTime(0, audioCtx.currentTime)
-        // highPassFilter.frequency.value = 20; 
-    
-        highPassFilter.Q.value = 60;
-
-
-        oscMain1.detune.setValueAtTime(0.1, audioCtx.currentTime)
-        oscMain2.detune.setValueAtTime(-0.1, audioCtx.currentTime)
-        oscSecondary1.detune.setValueAtTime(10, audioCtx.currentTime)
-        oscSecondary2.detune.setValueAtTime(9.9, audioCtx.currentTime)
-        oscSecondary3.detune.setValueAtTime(10.1, audioCtx.currentTime)
-
-        var mainGain = audioCtx.createGain(); 
-        mainGain.gain.setValueAtTime(0, audioCtx.currentTime)
-  
-
-        mainGain.gain.setValueAtTime(0.5, audioCtx.currentTime + 0.0015)
-        mainGain.gain.setValueAtTime(0.3, audioCtx.currentTime + 0.0339)
-
-        highPassFilter.gain.setValueAtTime(0, audioCtx.currentTime);
-        highPassFilter.gain.setValueAtTime(100, audioCtx.currentTime+0.0102);
-        highPassFilter.gain.setValueAtTime(73, audioCtx.currentTime+1.35);
-        lfo.connect(highPassFilter.frequency)
-
-        oscMain1.connect(highPassFilter);
-        oscMain2.connect(highPassFilter);
-        oscSecondary1.connect(highPassFilter);
-        oscSecondary2.connect(highPassFilter);
-        oscSecondary3.connect(highPassFilter);
-
-        highPassFilter.connect(mainGain).connect(audioCtx.destination)
-
-        oscMain1.start()
-        oscMain2.start()
-        oscSecondary1.start()
-        oscSecondary2.start()
-        oscSecondary3.start()
-        lfo.start()
-
-        activeOscillators[key] = {
-            oscMain1 : oscMain1,
-            oscMain2 : oscMain2,
-            oscSecondary1 : oscSecondary1, 
-            oscSecondary2 : oscSecondary2, 
-            oscSecondary3 : oscSecondary3, 
-            mainGain : mainGain, 
-            lfo : lfo,  
-        }
-
-    }
     
     function violinOscillator(key){
 
@@ -427,17 +269,17 @@ document.addEventListener("DOMContentLoaded", function(event) {
         console.log(synth)
         switch(synth){
             case "1":
-                lowbrass(key);
+                brass(key, false);
                 break;
             case "2":
-                highbrass(key);
+                brass(key,true);
                 break;
 
             case "3":
-                lowWinds(key);
+                winds(key, false);
                 break;
             case "4":
-                highWinds(key);
+                winds(key, true);
                 break;
         }
 
