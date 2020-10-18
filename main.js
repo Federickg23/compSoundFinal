@@ -294,6 +294,60 @@ document.addEventListener("DOMContentLoaded", function(event) {
     
 
     function drumsOscillator(key){
+        var AudioCtor = window.AudioContext || window.webkitAudioContext;
+        desiredSampleRate = typeof desiredSampleRate === 'number' ? desiredSampleRate : 44100;
+        var context = new AudioCtor();
+  
+        var mixGain = audioCtx.createGain();
+        var filterGain = audioCtx.createGain();
+        var osc3 = audioCtx.createOscillator();
+        var gainOsc3 = audioCtx.createGain();
+  
+          filterGain.gain.setValueAtTime(1, audioCtx.currentTime);
+          filterGain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.2);
+  
+          osc3.type = 'triangle';
+          osc3.frequency.value = 100;
+  
+          gainOsc3.gain.value = 0;
+          gainOsc3.gain.setValueAtTime(0, audioCtx.currentTime);
+          //gainOsc3.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+  
+          //Connections
+          osc3.connect(gainOsc3);
+          gainOsc3.connect(mixGain);
+  
+          mixGain.gain.value = 1;
+  
+          osc3.start(audioCtx.currentTime);
+          osc3.stop(audioCtx.currentTime + 0.2);
+  
+          var node = audioCtx.createBufferSource(),
+              buffer = audioCtx.createBuffer(1, 4096, audioCtx.sampleRate),
+              data = buffer.getChannelData(0);
+  
+          var filter = audioCtx.createBiquadFilter();
+  
+          filter.type = 'highpass';
+          filter.frequency.setValueAtTime(100, audioCtx.currentTime);
+          filter.frequency.linearRampToValueAtTime(1000, audioCtx.currentTime + 0.2);
+  
+          for (var i = 0; i < 4096; i++) {
+              data[i] = Math.random();
+          }
+  
+          node.buffer = buffer;
+          node.loop = true;
+  
+          //Connections
+          node.connect(filter);
+          filter.connect(filterGain);
+          filterGain.connect(mixGain);
+  
+          node.start(audioCtx.currentTime);
+          node.stop(audioCtx.currentTime + 0.2);
+  
+          mixGain.connect(audioCtx.destination);
 
     }
 
@@ -340,6 +394,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 break;
             case "4":
                 winds(key, true);
+                break;
+            case "5":
+                drumsOscillator();
                 break;
         }
     }
