@@ -50,17 +50,71 @@ document.addEventListener("DOMContentLoaded", function(event) {
     
     function tromboneOscillator(key){
         // {w:"square",v:0.2,a:0.02,d:1,s:0.5,r:0.08,},{w:"sine",v:1,d:0.1,s:4,g:1,} 
-        var f = keyboardFrequencyMap(key); 
+        var f = keyboardFrequencyMap[key]/2; 
         
-        var osc1 = audioCtx.createOscillator();
-        var osc2 = audioCtx.createOscillator();
-        osc1.frequency.value = f; 
-        osc2.frequency.value = f; 
+        var oscMain1 = audioCtx.createOscillator();
+        var oscMain2 = audioCtx.createOscillator();
+        var oscSecondary1 = audioCtx.createOscillator();
+        var oscSecondary2 = audioCtx.createOscillator();
+        var oscSecondary3 = audioCtx.createOscillator();
+        oscMain1.frequency.value = f; 
+        oscMain2.frequency.value = f; 
+        oscSecondary1.frequency.value = f;
+        oscSecondary2.frequency.value = f;
+        oscSecondary3.frequency.value = f;
 
-        osc1.type = "square";
-        osc2.type = "sine";
+
+        var lfo = audioCtx.createOscillator(); 
+        lfo.frequency.value = 12; 
+        lfo.type = "triangle";
+        oscMain1.type = "triangle";
+        oscMain2.type = "triangle";
+        oscSecondary1.type = "triangle";
+        oscSecondary2.type = "triangle";
+        oscSecondary3.type = "triangle";
+
+            
+        var highPassFilter = audioCtx.createBiquadFilter();
+        highPassFilter.type = "highpass";
+        highPassFilter.frequency.setValueAtTime(0, audioCtx.currentTime)
+        // highPassFilter.frequency.value = 20; 
+    
+        highPassFilter.Q.value = 80;
 
 
+        oscMain1.detune.setValueAtTime(0.1, audioCtx.currentTime)
+        oscMain2.detune.setValueAtTime(0.1, audioCtx.currentTime)
+        oscSecondary1.detune.setValueAtTime(10, audioCtx.currentTime)
+        oscSecondary2.detune.setValueAtTime(9.9, audioCtx.currentTime)
+        oscSecondary3.detune.setValueAtTime(10.1, audioCtx.currentTime)
+
+        var mainGain = audioCtx.createGain(); 
+        mainGain.gain.setValueAtTime(0, audioCtx.currentTime)
+
+        
+
+        mainGain.gain.setValueAtTime(0.5, audioCtx.currentTime + 0.0015)
+        mainGain.gain.setValueAtTime(0.5, audioCtx.currentTime + 0.0339)
+
+        highPassFilter.gain.setValueAtTime(0, audioCtx.currentTime);
+        highPassFilter.gain.setValueAtTime(100, audioCtx.currentTime+0.0102);
+        highPassFilter.gain.setValueAtTime(73, audioCtx.currentTime+1.35);
+        lfo.connect(highPassFilter.frequency)
+
+        oscMain1.connect(highPassFilter);
+        oscMain2.connect(highPassFilter);
+        oscSecondary1.connect(highPassFilter);
+        oscSecondary2.connect(highPassFilter);
+        oscSecondary3.connect(highPassFilter);
+
+        highPassFilter.connect(mainGain).connect(audioCtx.destination)
+
+        oscMain1.start()
+        oscMain2.start()
+        oscSecondary1.start()
+        oscSecondary2.start()
+        oscSecondary3.start()
+        lfo.start()
 
 
     }
@@ -90,7 +144,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     }
 
     function playNote(key){
-
+        tromboneOscillator(key)
 
     }
 
