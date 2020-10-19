@@ -1,9 +1,9 @@
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <!--commentttttttttt-->
     </head>
-
+    
     <script src="main.js"></script>
     <script src="tuna.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@magenta/music@^1.0.0"></script>
@@ -15,18 +15,76 @@
         <h3>By Federick Gonzalez, Yael Cohen, and Bryanna Geiger</h3>
 
        
-        <label for="instrument">Instrument type:</label>
-        <select name="instrument" id="instrument">
-            <option value="1">Low Brass</option>
-            <option value="2">High Brass</option>
-            <option value="3">Low Winds</option>
-            <option value="4">High Winds</option>
-            <option value="5">Strings</option>
-            <option value="6">Low Strings</option>
-            <option value="7">Percussion</option>
+        <b><label class="note" for="instrument">Instrument type:</label></b>
+        <select class="note" name="instrument" id="instrument">
+            <option class="note" value="1">Low Brass</option>
+            <option class="note" value="2">High Brass</option>
+            <option class="note" value="3">Low Winds</option>
+            <option class="note" value="4">High Winds</option>
+            <option class="note" value="5">High Strings</option>
+            <option class="note" value="6">Low Strings</option>
+            <option class="note" value="7">Percussion</option>
         </select>
         <br>
     
     </body>
 
 </html>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" integrity="sha256-qM7QTJSlvtPSxVRjVWNM2OfTAz/3k5ovHOKmKXuYMO4=" crossorigin="anonymous"></script>
+
+<style>
+    html {
+        cursor: url('http://www.zingerbug.com/cursors/cursors/monochrome_musical_notes.gif'), default;
+    }
+
+    .note {
+        cursor: url('http://www.zingerbug.com/cursors/cursors/monochrome_musical_notes.gif'), default;
+    }
+
+    body {
+    /*background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);*/
+    background: linear-gradient(-45deg, #d16848, #a32858, #1980a5, #189b7c);
+	background-size: 400% 950%;
+    animation: gradient 15s ease infinite;
+}
+
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+
+h1 {
+    text-align: center;
+    font-size: 35px;
+    color:white;
+}
+
+h3 {
+    text-align: center;
+    font-size: 25px;
+    color: white;
+}
+
+body {
+    text-align: center;
+}
+
+label {
+    font-size: 20px;
+    color:white;
+}
+
+select {
+    font-size: 18px;
+}
+
+
+</style>
