@@ -434,6 +434,75 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     }
 
+    function kick() {
+        var osc = audioCtx.createOscillator();
+        var osc2 = audioCtx.createOscillator();
+        var gainOsc = audioCtx.createGain();
+        var gainOsc2 = audioCtx.createGain();
+    
+        osc.type = "triangle";
+        osc2.type = "sine";
+    
+        gainOsc.gain.setValueAtTime(1, audioCtx.currentTime);
+        gainOsc.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.5);
+    
+        gainOsc2.gain.setValueAtTime(1, audioCtx.currentTime);
+        gainOsc2.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.5);
+       
+        osc.frequency.setValueAtTime(120, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.5);
+    
+        osc2.frequency.setValueAtTime(50, audioCtx.currentTime);
+        osc2.frequency.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.5);
+    
+        osc.connect(gainOsc);
+        osc2.connect(gainOsc2);
+        gainOsc.connect(audioCtx.destination);
+        gainOsc2.connect(audioCtx.destination);
+    
+        osc.start(audioCtx.currentTime);
+        osc2.start(audioCtx.currentTime);
+    
+        osc.stop(audioCtx.currentTime + 0.5);
+        osc2.stop(audioCtx.currentTime + 0.5);
+    }
+
+    function cymbal() {
+        var fundamental = 40;
+        var ratios = [2, 3, 4.16, 5.43, 6.79, 8.21];
+        var gain = audioCtx.createGain();
+        
+        // Bandpass - Biquad Filter
+        var bandpass = audioCtx.createBiquadFilter();
+        bandpass.type = "bandpass";
+        bandpass.frequency.value = 10000;
+        
+        // Highpass - Biquad Filter
+        var highpass = audioCtx.createBiquadFilter();
+        highpass.type = "highpass";
+        highpass.frequency.value = 7000;
+        
+        bandpass.connect(highpass);
+        highpass.connect(gain);
+        gain.connect(audioCtx.destination);
+    
+        ratios.forEach(function(ratio) {
+          var osc = audioCtx.createOscillator();
+          osc.type = "square";
+          osc.frequency.value = fundamental * ratio;
+          osc.connect(bandpass);
+          osc.start(audioCtx.currentTime);
+          osc.stop(audioCtx.currentTime + 0.3);
+        });
+        
+        // Envelope
+        gain.gain.setValueAtTime(0.00001, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(1, audioCtx.currentTime + 0.02);
+        gain.gain.exponentialRampToValueAtTime(0.3, audioCtx.currentTime + 0.03);
+        gain.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + 0.3);       
+    }
+    
+
     function piano(key){
 
     }
@@ -484,6 +553,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 break; 
             case "7":
                 drumsOscillator();
+                break;
+            case "8":
+                kick();
+                break;
+            case "9":
+                cymbal();
                 break;
         }
     }
