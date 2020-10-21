@@ -113,6 +113,47 @@ notes: [
 totalTime: 20
 };
 
+LOW_WINDS = {
+notes: [
+{pitch: 85, startTime: 0.0, endTime: 3.5},
+{pitch: 53, startTime: 3.5, endTime: 4.0},
+{pitch: 84, startTime: 4.0, endTime: 6.0},
+{pitch: 69, startTime: 6.0, endTime: 8.0},
+{pitch: 84, startTime: 8.0, endTime: 10.0},
+{pitch: 66, startTime: 10.0, endTime: 11.0},
+{pitch: 78, startTime: 11.0, endTime: 12.0},
+{pitch: 69, startTime: 12.0, endTime: 12.25},
+{pitch: 84, startTime: 12.25, endTime: 12.5},
+{pitch: 84, startTime: 12.5, endTime: 12.75},
+{pitch: 69, startTime: 12.75, endTime: 13.0},
+{pitch: 69, startTime: 13.0, endTime: 13.25},
+{pitch: 84, startTime: 13.25, endTime: 13.5},
+{pitch: 84, startTime: 13.5, endTime: 13.75},
+{pitch: 69, startTime: 13.75, endTime: 14.0},
+{pitch: 69, startTime: 14.0, endTime: 14.25},
+{pitch: 84, startTime: 14.25, endTime: 14.5},
+{pitch: 84, startTime: 14.5, endTime: 14.75},
+{pitch: 69, startTime: 14.75, endTime: 15.0},
+{pitch: 69, startTime: 15.0, endTime: 15.25},
+{pitch: 84, startTime: 15.25, endTime: 15.5},
+{pitch: 84, startTime: 15.5, endTime: 15.75},
+{pitch: 69, startTime: 15.75, endTime: 16.0},
+{pitch: 69, startTime: 16.0, endTime: 16.25},
+{pitch: 84, startTime: 16.25, endTime: 16.5},
+{pitch: 84, startTime: 16.5, endTime: 16.75},
+{pitch: 69, startTime: 16.75, endTime: 17.0},
+{pitch: 69, startTime: 17.0, endTime: 17.25},
+{pitch: 84, startTime: 17.25, endTime: 17.5},
+{pitch: 84, startTime: 17.5, endTime: 17.75},
+{pitch: 69, startTime: 17.75, endTime: 18.0},
+{pitch: 87, startTime: 18.0, endTime: 18.25},
+{pitch: 69, startTime: 18.25, endTime: 18.5},
+{pitch: 69, startTime: 19.0, endTime: 19.25}, 
+{pitch: 53, startTime: 19.25, endTime: 19.5},
+],
+totalTime: 20
+};
+
 LOW_BRASS = {
 notes: [
 {pitch: 85, startTime: 0.0, endTime: 3.5},
