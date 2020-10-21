@@ -15,7 +15,7 @@
         <h3>By Federick Gonzalez, Yael Cohen, and Bryanna Geiger</h3>
 	    
 	<button>Play</button>
-	<input><label id="nValue" type="range" min=1 max=26 value="1" selected> Choose the N to choose the order of the Markov Chain!</label></input>
+	<input id="nValue" type="range" min=1 max=26 value="1" selected> Choose the N to choose the order of the Markov Chain!></input>
 
         <b><label class="note" for="instrument">Instrument type:</label></b>
         <select class="note" name="instrument" id="instrument">
@@ -82,6 +82,11 @@ body {
 }
 
 label {
+    font-size: 20px;
+    color:white;
+}
+	
+input {
     font-size: 20px;
     color:white;
 }
