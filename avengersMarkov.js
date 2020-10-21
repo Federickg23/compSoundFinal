@@ -1,4 +1,4 @@
-var audioCtx;
+// var audioCtx;
 var osc;
 var gainNode;
 
@@ -403,23 +403,4 @@ function genMarkNotes(n) {
 }
 
 
-const playButton = document.querySelector('button');
-playButton.addEventListener('click', function() {
-    audioCtx = new (window.AudioContext || window.webkitAudioContext)
-    osc = audioCtx.createOscillator();
-    gainNode = audioCtx.createGain();
-    osc.connect(gainNode).connect(audioCtx.destination);
-    osc.start()
-    gainNode.gain.value = 0;
 
-    var n = 0;
-
-    n = document.getElementById("nValue").value;
-
-    console.log("n: " + n);
-
-    noteList = genMarkNotes(Number(n));
-    noteList.forEach(note => {
-        playNote(note);
-    });
-}, false);

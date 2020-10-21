@@ -287,7 +287,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         else 
             f = keyboardFrequencyMap[key]/4; 
 
-        var type = "sawtooth";
+        var type = "sine";
 
         var oscMain1 = audioCtx.createOscillator();
         var oscMain2 = audioCtx.createOscillator();
@@ -371,12 +371,113 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 
     }
-    
+
+    function stringNotes(note){
+        var f = midiToFreq(note.pitch)/2;
+        console.log(f)
+        var noteStart = note.startTime
+        var noteEnd = note.endTime
+        var type = "sawtooth";
+
+        var oscMain1 = audioCtx.createOscillator();
+        var oscMain2 = audioCtx.createOscillator();
+        var oscMain3 = audioCtx.createOscillator();
+        var oscMain4 = audioCtx.createOscillator();
+        var oscMain5 = audioCtx.createOscillator();
+        var oscMain6 = audioCtx.createOscillator();
+        var oscMain7 = audioCtx.createOscillator();
+        
+        oscMain1.type = type 
+        oscMain2.type = type 
+        oscMain3.type = type 
+        oscMain4.type = type 
+        oscMain5.type = type 
+        oscMain6.type = type 
+        oscMain7.type = type 
+  
+        oscMain1.frequency.value = f
+        oscMain2.frequency.value = f
+        oscMain3.frequency.value = f
+        oscMain4.frequency.value = f
+        oscMain5.frequency.value = f
+        oscMain6.frequency.value = f
+        oscMain7.frequency.value = f
+
+        oscMain1.detune.setValueAtTime(-0.3, audioCtx.currentTime + noteStart + 1)
+        oscMain2.detune.setValueAtTime(-0.2, audioCtx.currentTime + noteStart + 1)
+        oscMain3.detune.setValueAtTime(-0.1, audioCtx.currentTime + noteStart + 1)
+        oscMain4.detune.setValueAtTime(0, audioCtx.currentTime + noteStart + 1)
+        oscMain5.detune.setValueAtTime(0.1, audioCtx.currentTime + noteStart + 1)
+        oscMain6.detune.setValueAtTime(0.2, audioCtx.currentTime + noteStart + 1)
+
+        
+        var mainGain = audioCtx.createGain()
+        var secondGain = audioCtx.createGain()
+        var thirdGain = audioCtx.createGain()
+        var fourthGain = audioCtx.createGain()
+
+        oscMain1.connect(mainGain)
+        oscMain2.connect(mainGain)
+        oscMain3.connect(mainGain)
+        oscMain4.connect(mainGain)
+        oscMain5.connect(mainGain)
+        oscMain6.connect(mainGain)
+        oscMain7.connect(mainGain)
+
+        mainGain.connect(moog)
+        
+        moog.connect(secondGain)
+        secondGain.connect(drive)
+        drive.connect(thirdGain)
+        thirdGain.connect(convolver)
+        convolver.connect(fourthGain)
+        fourthGain.connect(compressor)
+        compressor.connect(audioCtx.destination)
+
+        mainGain.gain.setValueAtTime(0, audioCtx.currentTime + noteStart + 1)
+        mainGain.gain.linearRampToValueAtTime(0.7, audioCtx.currentTime + 0.5 + noteStart+ 1)
+        mainGain.gain.linearRampToValueAtTime(0.5, audioCtx.currentTime + 1 + noteStart+ 1)
+        secondGain.gain.linearRampToValueAtTime(0.7, audioCtx.currentTime + 0.5 + noteStart+ 1)
+        secondGain.gain.linearRampToValueAtTime(0.5, audioCtx.currentTime + 1 + noteStart+ 1)
+        thirdGain.gain.linearRampToValueAtTime(0.7, audioCtx.currentTime + 0.5 + noteStart+ 1)
+        thirdGain.gain.linearRampToValueAtTime(0.5, audioCtx.currentTime + 1 + noteStart+ 1)
+        moog.automate("cutoff", 0, 0, audioCtx.currentTime + noteStart+ 1)
+        moog.automate("cutoff", 0.1, 1000, audioCtx.currentTime + noteStart+ 1)
+        moog.automate("cutoff", 0.06, 3000, audioCtx.currentTime + 1 + noteStart+ 1)
+        
+
+        oscMain1.start(audioCtx.currentTime + noteStart+ 1)
+        oscMain2.start(audioCtx.currentTime + noteStart+ 1)
+        oscMain3.start(audioCtx.currentTime + noteStart+ 1)
+        oscMain4.start(audioCtx.currentTime + noteStart+ 1)
+        oscMain5.start(audioCtx.currentTime + noteStart+ 1)
+        oscMain6.start(audioCtx.currentTime + noteStart+ 1)
+        oscMain7.start(audioCtx.currentTime + noteStart+ 1)
+
+        oscMain1.stop(audioCtx.currentTime + noteEnd+ 1)
+        oscMain2.stop(audioCtx.currentTime + noteEnd+ 1)
+        oscMain3.stop(audioCtx.currentTime + noteEnd+ 1)
+        oscMain4.stop(audioCtx.currentTime + noteEnd+ 1)
+        oscMain5.stop(audioCtx.currentTime + noteEnd+ 1)
+        oscMain6.stop(audioCtx.currentTime + noteEnd+ 1)
+        oscMain7.stop(audioCtx.currentTime + noteEnd+ 1)
+
+
+
+        mainGain.gain.cancelScheduledValues(audioCtx.currentTime+ 1 + noteEnd)
+        mainGain.gain.linearRampToValueAtTime(0, audioCtx.currentTime+ 1 +noteEnd + 0.02)
+        secondGain.gain.cancelScheduledValues(audioCtx.currentTime + 1+ noteEnd)
+        secondGain.gain.linearRampToValueAtTime(0, audioCtx.currentTime+ 1 +noteEnd + 0.02)
+        thirdGain.gain.cancelScheduledValues(audioCtx.currentTime+ 1 + noteEnd)
+        thirdGain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 1+noteEnd + 0.02)    
+
+
+    }    
 
     function drumsOscillator(key){
         var AudioCtor = window.AudioContext || window.webkitAudioContext;
         desiredSampleRate = typeof desiredSampleRate === 'number' ? desiredSampleRate : 44100;
-        var context = new AudioCtor();
+        // var context = new AudioCtor();
   
         var mixGain = audioCtx.createGain();
         var filterGain = audioCtx.createGain();
@@ -559,5 +660,19 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 break;
         }
     }
+    
+    const playButton = document.querySelector('button');
+    playButton.addEventListener('click', function() {
+        var n = 0;
 
+        n = document.getElementById("nValue").value;
+
+        console.log("n: " + n);
+
+        noteList = genMarkNotes(Number(n));
+        console.log(noteList)
+        noteList.forEach(note => {
+            stringNotes(note);
+        });
+    }, false);
 });
