@@ -3,18 +3,20 @@
 <html lang="en">
     <head>
     </head>
-    
+	    
     <script src="main.js"></script>
     <script src="tuna.js"></script>
+    <script src="avengersMarkov.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@magenta/music@^1.0.0"></script>
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/tunajs/1.0.1/tuna-min.js" type="text/javascript"></script> -->
     <body>
-
-
+	    
         <h1>Computational Sound Final Project</h1>
         <h3>By Federick Gonzalez, Yael Cohen, and Bryanna Geiger</h3>
+	    
+	<button>Play</button>
+	<input id="nValue" type="range" min=1 max=26 value="1" selected>Choose the N to choose the order of the Markov Chain!</input>
 
-       
         <b><label class="note" for="instrument">Instrument type:</label></b>
         <select class="note" name="instrument" id="instrument">
             <option class="note" value="1">Low Brass</option>
@@ -24,9 +26,11 @@
             <option class="note" value="5">High Strings</option>
             <option class="note" value="6">Low Strings</option>
             <option class="note" value="7">Percussion</option>
+            <option class="note" value="8">Kick</option>
+            <option class="note" value="9">Cymbal</option>
         </select>
         <br>
-    
+        
     </body>
 
 </html>
@@ -78,6 +82,11 @@ body {
 }
 
 label {
+    font-size: 20px;
+    color:white;
+}
+	
+index {
     font-size: 20px;
     color:white;
 }
