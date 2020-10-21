@@ -128,7 +128,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
         var lowpassFilter = audioCtx.createBiquadFilter();
         lowpassFilter.type = "lowpass";
         //Some nice friendly low warm frequencies for our brass section
-
         lowpassFilter.Q.value = 20;
         //Gets rid of weird bumps in the waves, feel free to play w this value
 
@@ -166,7 +165,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
         oscSecondary2.connect(lowpassFilter);
         oscSecondary3.connect(lowpassFilter);
 
-
         //Connect to moog module (from tunajs) and convolver for funky fresh sounds 
         lowpassFilter.connect(mainGain)
         mainGain.connect(moog)
@@ -175,7 +173,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
         convolver.connect(audioCtx.destination)
 
         //TODO: Test if reversing the order in which things are connected changes the sound
-
         oscMain1.start()
         oscMain2.start()
         oscSecondary1.start()
@@ -348,12 +345,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
         compressor.connect(audioCtx.destination)
 
         mainGain.gain.setValueAtTime(0, audioCtx.currentTime)
-        mainGain.gain.linearRampToValueAtTime(0.5, audioCtx.currentTime + 1.5)
-        mainGain.gain.linearRampToValueAtTime(0.3, audioCtx.currentTime + 4)
-        secondGain.gain.linearRampToValueAtTime(0.5, audioCtx.currentTime + 1.5)
-        secondGain.gain.linearRampToValueAtTime(0.3, audioCtx.currentTime + 4)
-        thirdGain.gain.linearRampToValueAtTime(0.5, audioCtx.currentTime + 1.5)
-        thirdGain.gain.linearRampToValueAtTime(0.3, audioCtx.currentTime + 4)
+        mainGain.gain.linearRampToValueAtTime(0.4, audioCtx.currentTime + 1.5)
+        mainGain.gain.linearRampToValueAtTime(0.2, audioCtx.currentTime + 4)
+        secondGain.gain.linearRampToValueAtTime(0.4, audioCtx.currentTime + 1.5)
+        secondGain.gain.linearRampToValueAtTime(0.2, audioCtx.currentTime + 4)
+        thirdGain.gain.linearRampToValueAtTime(0.4, audioCtx.currentTime + 1.5)
+        thirdGain.gain.linearRampToValueAtTime(0.2, audioCtx.currentTime + 4)
         moog.automate("cutoff", 0, 0, 0)
         moog.automate("cutoff", 0.1, 1000, 0)
         moog.automate("cutoff", 0.06, 3000, audioCtx.currentTime + 1)
@@ -435,7 +432,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     }
 
     function piano(key){
-
+        
     }
 
     function keyUp(event) {
@@ -488,6 +485,4 @@ document.addEventListener("DOMContentLoaded", function(event) {
         }
     }
 
-
 });
-
