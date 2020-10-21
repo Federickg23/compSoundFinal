@@ -353,8 +353,32 @@ function charToMidi(c) {
   return c.charCodeAt();
 }
 
-function genMarkNotes(n) {
-  var noteList = HIGH_STRINGS.notes;
+function genMarkNotes(n, list) {
+  var noteList;
+  switch (list){
+    case 0: 
+      noteList = HIGH_STRINGS.notes;
+      break; 
+    case 1: 
+      noteList = HIGH_BRASS.notes;
+      break; 
+    case 2: 
+      noteList = HIGH_WINDS.notes;
+      break; 
+    case 3: 
+      noteList = LOW_STRINGS.notes;
+      break; 
+    case 4: 
+      noteList = LOW_WINDS.notes;
+      break; 
+    case 5: 
+      noteList = LOW_BRASS.notes;
+      break; 
+    case 6: 
+      noteList = PERCUSSION.notes;
+      break; 
+
+  }  
   var outNoteList = [];
   var text = "";
   var offset = 0;

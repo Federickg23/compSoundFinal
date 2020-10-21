@@ -189,6 +189,109 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     }
 
+    function brassNotes(note, high){
+        var f;
+        if (high)
+            f = midiToFreq(note.pitch); 
+        else 
+            f = midiToFreq(note.pitch)/2; 
+
+        
+        var oscMain1 = audioCtx.createOscillator();
+        var oscMain2 = audioCtx.createOscillator();
+        var oscSecondary1 = audioCtx.createOscillator();
+        var oscSecondary2 = audioCtx.createOscillator();
+        var oscSecondary3 = audioCtx.createOscillator();
+        oscMain1.frequency.value = f; 
+        oscMain2.frequency.value = f; 
+        oscSecondary1.frequency.value = f;
+        oscSecondary2.frequency.value = f;
+        oscSecondary3.frequency.value = f;
+
+        startTime = audioCtx.currentTime + note.startTime + 1
+        endTime = audioCtx.currentTime + note.endTime + 1
+
+        var lfo = audioCtx.createOscillator(); 
+        lfo.frequency.value = 12; 
+        var synthType = "sawtooth";
+        lfo.type = synthType;
+        oscMain1.type = synthType;
+        oscMain2.type = synthType;
+        oscSecondary1.type = synthType;
+        oscSecondary2.type = synthType;
+        oscSecondary3.type = synthType;
+        //Set to sawtooth because that one sounds the most like a brassy sound
+            
+
+        var lowpassFilter = audioCtx.createBiquadFilter();
+        lowpassFilter.type = "lowpass";
+        //Some nice friendly low warm frequencies for our brass section
+        lowpassFilter.Q.value = 20;
+        //Gets rid of weird bumps in the waves, feel free to play w this value
+
+        oscMain1.detune.setValueAtTime(0.1, startTime)
+        oscMain2.detune.setValueAtTime(-0.1, startTime)
+        oscSecondary1.detune.setValueAtTime(10, startTime)
+        oscSecondary2.detune.setValueAtTime(9.9, startTime)
+        oscSecondary3.detune.setValueAtTime(10.1, startTime)
+        //Basically trying to make the timbre of a brass sound, not sure if it works? Can 
+        //def play around with these as well
+
+        var mainGain = audioCtx.createGain(); 
+        var secondGain = audioCtx.createGain(); 
+        var thirdGain = audioCtx.createGain(); 
+        mainGain.gain.setValueAtTime(0, startTime)
+  
+
+        //sound envelope
+        mainGain.gain.linearRampToValueAtTime(0.5, startTime + 0.0015)
+        mainGain.gain.linearRampToValueAtTime(0.3, startTime + 0.0339)
+
+        //Filter envelope
+        lowpassFilter.gain.setValueAtTime(0, startTime);
+        lowpassFilter.gain.linearRampToValueAtTime(100, startTime+0.0102);
+        lowpassFilter.gain.linearRampToValueAtTime(73, startTime+1.35);
+        lowpassFilter.frequency.setValueAtTime(0, startTime);
+        lowpassFilter.frequency.linearRampToValueAtTime(1000, startTime+0.0102);
+        lowpassFilter.frequency.setValueAtTime(700, startTime+1.35);
+        lfo.connect(lowpassFilter.frequency)
+
+
+        oscMain1.connect(lowpassFilter);
+        oscMain2.connect(lowpassFilter);
+        oscSecondary1.connect(lowpassFilter);
+        oscSecondary2.connect(lowpassFilter);
+        oscSecondary3.connect(lowpassFilter);
+
+        //Connect to moog module (from tunajs) and convolver for funky fresh sounds 
+        lowpassFilter.connect(mainGain)
+        mainGain.connect(moog)
+        moog.connect(secondGain)
+        secondGain.connect(convolver)
+        convolver.connect(audioCtx.destination)
+
+        //TODO: Test if reversing the order in which things are connected changes the sound
+        oscMain1.start(startTime)
+        oscMain2.start(startTime)
+        oscSecondary1.start(startTime)
+        oscSecondary2.start(startTime)
+        oscSecondary3.start(startTime)
+        lfo.start(startTime)
+
+        oscMain1.stop(endTime)
+        oscMain2.stop(endTime)
+        oscSecondary1.stop(endTime)
+        oscSecondary2.stop(endTime)
+        oscSecondary3.stop(endTime)
+        lfo.stop(endTime)
+
+        mainGain.gain.cancelScheduledValues(endTime)
+        mainGain.gain.linearRampToValueAtTime(0, endTime + 0.02)
+        secondGain.gain.cancelScheduledValues(endTime)
+        secondGain.gain.linearRampToValueAtTime(0, endTime + 0.02)
+
+    }
+
     function winds(key, high){
 
         //Essentially the same as brass method just without the moog module 
@@ -278,6 +381,103 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     }
 
+    function windNotes(note, high){
+
+        //Essentially the same as brass method just without the moog module 
+        var f;
+        if (high)
+            f = midiToFreq(note.pitch); 
+        else 
+            f = midiToFreq(note.pitch)/2; 
+
+        startTime = audioCtx.currentTime + note.startTime + 1;
+        endTime = audioCtx.currentTime + note.endTime + 1; 
+        var oscMain1 = audioCtx.createOscillator();
+        var oscMain2 = audioCtx.createOscillator();
+        var oscSecondary1 = audioCtx.createOscillator();
+        var oscSecondary2 = audioCtx.createOscillator();
+        var oscSecondary3 = audioCtx.createOscillator();
+        oscMain1.frequency.value = f; 
+        oscMain2.frequency.value = f; 
+        oscSecondary1.frequency.value = f;
+        oscSecondary2.frequency.value = f;
+        oscSecondary3.frequency.value = f;
+
+
+        var lfo = audioCtx.createOscillator(); 
+        lfo.frequency.value = 12; 
+        lfo.type = "triangle";
+        oscMain1.type = "triangle";
+        oscMain2.type = "triangle";
+        oscSecondary1.type = "triangle";
+        oscSecondary2.type = "triangle";
+        oscSecondary3.type = "triangle";
+
+            
+        var highPassFilter = audioCtx.createBiquadFilter();
+        highPassFilter.type = "highpass";
+        highPassFilter.frequency.setValueAtTime(0, startTime)
+        // highPassFilter.frequency.value = 20; 
+    
+        highPassFilter.Q.value = 60;
+
+
+        oscMain1.detune.setValueAtTime(0.1, startTime)
+        oscMain2.detune.setValueAtTime(-0.1, startTime)
+        oscSecondary1.detune.setValueAtTime(10, startTime)
+        oscSecondary2.detune.setValueAtTime(9.9, startTime)
+        oscSecondary3.detune.setValueAtTime(10.1, startTime)
+
+        var mainGain = audioCtx.createGain(); 
+        mainGain.gain.setValueAtTime(0, startTime)
+
+        //Convolver stolen from lab3 because I felt it gave a breathy sound to whatever was playing
+        var convolver = audioCtx.createConvolver(),
+            noiseBuffer = audioCtx.createBuffer(2, 0.5 * audioCtx.sampleRate, audioCtx.sampleRate),
+            left = noiseBuffer.getChannelData(0),
+            right = noiseBuffer.getChannelData(1);
+        for (var i = 0; i < noiseBuffer.length; i++) {
+            left[i] = Math.random() * 2 - 1;
+            right[i] = Math.random() * 2 - 1;
+        }
+        convolver.buffer = noiseBuffer;     
+
+        mainGain.gain.setValueAtTime(0.5, startTime + 0.0015)
+        mainGain.gain.setValueAtTime(0.3, startTime + 0.0339)
+
+        highPassFilter.gain.setValueAtTime(0, startTime);
+        highPassFilter.gain.setValueAtTime(100, startTime+0.0102);
+        highPassFilter.gain.setValueAtTime(73, startTime+1.35);
+        lfo.connect(highPassFilter.frequency)
+
+        oscMain1.connect(highPassFilter);
+        oscMain2.connect(highPassFilter);
+        oscSecondary1.connect(highPassFilter);
+        oscSecondary2.connect(highPassFilter);
+        oscSecondary3.connect(highPassFilter);
+
+        highPassFilter.connect(convolver).connect(mainGain).connect(audioCtx.destination)
+
+        oscMain1.start(startTime)
+        oscMain2.start(startTime)
+        oscSecondary1.start(startTime)
+        oscSecondary2.start(startTime)
+        oscSecondary3.start(startTime)
+        lfo.start(startTime)
+
+        oscMain1.stop(endTime)
+        oscMain2.stop(endTime)
+        oscSecondary1.stop(endTime)
+        oscSecondary2.stop(endTime)
+        oscSecondary3.stop(endTime)
+
+
+        mainGain.gain.cancelScheduledValues(endTime)
+        mainGain.gain.linearRampToValueAtTime(0, endTime + 0.02)
+        
+
+    }
+ 
 
     
     function strings(key, high){
@@ -372,8 +572,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     }
 
-    function stringNotes(note){
-        var f = midiToFreq(note.pitch)/2;
+    function stringNotes(note, high){
+        var f;
+        if (high)
+            f = midiToFreq(note.pitch)/2;
+        else
+            f = midiToFreq(note.pitch)/4;
         console.log(f)
         var noteStart = note.startTime
         var noteEnd = note.endTime
@@ -475,7 +679,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     }    
 
     function drumsOscillator(key){
-        var AudioCtor = window.AudioContext || window.webkitAudioContext;
+        // var AudioCtor = window.AudioContext || window.webkitAudioContext;
         desiredSampleRate = typeof desiredSampleRate === 'number' ? desiredSampleRate : 44100;
         // var context = new AudioCtor();
   
@@ -532,6 +736,67 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     }
 
+    function percussionNotes(note){
+        // var AudioCtor = window.AudioContext || window.webkitAudioContext;
+        desiredSampleRate = typeof desiredSampleRate === 'number' ? desiredSampleRate : 44100;
+        // var context = new AudioCtor();
+  
+        startTime = audioCtx.currentTime + 1 + note.startTime
+        endTime = audioCtx.currentTime + 1 + note.endTime
+
+        var mixGain = audioCtx.createGain();
+        var filterGain = audioCtx.createGain();
+        var osc3 = audioCtx.createOscillator();
+        var gainOsc3 = audioCtx.createGain();
+  
+          filterGain.gain.setValueAtTime(1, startTime);
+          filterGain.gain.exponentialRampToValueAtTime(0.01, startTime + 0.2);
+  
+          osc3.type = 'triangle';
+          osc3.frequency.value = 100;
+  
+          gainOsc3.gain.value = 0;
+          gainOsc3.gain.setValueAtTime(0, startTime);
+          //gainOsc3.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+  
+          //Connections
+          osc3.connect(gainOsc3);
+          gainOsc3.connect(mixGain);
+  
+          mixGain.gain.value = 1;
+  
+          osc3.start(startTime);
+          osc3.stop(endTime);
+  
+          var node = audioCtx.createBufferSource(),
+              buffer = audioCtx.createBuffer(1, 4096, audioCtx.sampleRate),
+              data = buffer.getChannelData(0);
+  
+          var filter = audioCtx.createBiquadFilter();
+  
+          filter.type = 'highpass';
+          filter.frequency.setValueAtTime(100, startTime);
+          filter.frequency.linearRampToValueAtTime(1000, startTime + 0.2);
+  
+          for (var i = 0; i < 4096; i++) {
+              data[i] = Math.random();
+          }
+  
+          node.buffer = buffer;
+          node.loop = true;
+  
+          //Connections
+          node.connect(filter);
+          filter.connect(filterGain);
+          filterGain.connect(mixGain);
+  
+          node.start(startTime);
+          node.stop(endTime);
+  
+          mixGain.connect(audioCtx.destination);
+
+    }
+
     function kick() {
         var osc = audioCtx.createOscillator();
         var osc2 = audioCtx.createOscillator();
@@ -564,6 +829,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
         osc.stop(audioCtx.currentTime + 0.5);
         osc2.stop(audioCtx.currentTime + 0.5);
     }
+
+    
 
     function cymbal() {
         var fundamental = 40;
@@ -668,11 +935,25 @@ document.addEventListener("DOMContentLoaded", function(event) {
         n = document.getElementById("nValue").value;
 
         console.log("n: " + n);
-
-        noteList = genMarkNotes(Number(n));
-        console.log(noteList)
-        noteList.forEach(note => {
-            stringNotes(note);
-        });
+        for( var i = 0; i < 7; i++){
+            noteList = genMarkNotes(Number(n), i);
+            console.log(noteList)
+            noteList.forEach(note => {
+                if (i == 0)
+                    stringNotes(note, true);
+                else if ( i == 1)
+                    brassNotes(note, true);
+                else if ( i == 2) 
+                    windNotes(note, true);
+                else if (i == 3)
+                    stringNotes(note, false);
+                else if (i == 4)
+                    windNotes(note, false)
+                else if ( i == 5)
+                    brassNotes(note, false)
+                else   
+                    percussionNotes(note)
+            });
+        }
     }, false);
 });
