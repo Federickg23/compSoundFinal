@@ -49,7 +49,7 @@ notes: [
 {pitch: 69, startTime: 19.0, endTime: 19.25}, 
 {pitch: 53, startTime: 19.25, endTime: 19.5},
 ],
-totalTime: 20
+totalTime: 19.5
 };
 
 HIGH_BRASS = {
@@ -99,7 +99,7 @@ notes: [
 {pitch: 69, startTime: 19.0, endTime: 19.25}, 
 {pitch: 53, startTime: 19.25, endTime: 19.5},
 ],
-totalTime: 20
+totalTime: 19.5
 };
 
 HIGH_WINDS = {
@@ -157,7 +157,7 @@ notes: [
 {pitch: 81, startTime: 19.0, endTime: 19.25}, 
 {pitch: 78, startTime: 19.25, endTime: 19.5},
 ],
-totalTime: 20
+totalTime: 19.5
 };
 
 LOW_STRINGS = {
@@ -210,7 +210,7 @@ notes: [
 {pitch: 69, startTime: 19.0, endTime: 19.25}, 
 {pitch: 53, startTime: 19.25, endTime: 19.5},
 ],
-totalTime: 20
+totalTime: 19.5
 };
 
 LOW_WINDS = {
@@ -251,7 +251,7 @@ notes: [
 {pitch: 81, startTime: 19.0, endTime: 19.25}, 
 {pitch: 78, startTime: 19.25, endTime: 19.5},
 ],
-totalTime: 20
+totalTime: 19.5
 };
 
 LOW_BRASS = {
@@ -269,7 +269,7 @@ notes: [
 {pitch: 69, startTime: 19.0, endTime: 19.25}, 
 {pitch: 53, startTime: 19.25, endTime: 19.5},
 ],
-totalTime: 20
+totalTime: 19.5
 };
 
 PERCUSSION = {
@@ -292,7 +292,7 @@ notes: [
 {pitch: 90, startTime: 18.0, endTime: 18.5}, 
 {pitch: 90, startTime: 19.0, endTime: 19.5}, 
 ],
-totalTime: 20
+totalTime: 19.5
 };
 
 function genNGram(text, n) {
