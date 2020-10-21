@@ -244,8 +244,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
   
 
         //sound envelope
-        mainGain.gain.linearRampToValueAtTime(0.5, startTime + 0.0015)
-        mainGain.gain.linearRampToValueAtTime(0.3, startTime + 0.0339)
+        mainGain.gain.linearRampToValueAtTime(0.3, startTime + 0.0015)
+        mainGain.gain.linearRampToValueAtTime(0.2, startTime + 0.0339)
 
         //Filter envelope
         lowpassFilter.gain.setValueAtTime(0, startTime);
@@ -442,8 +442,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
         }
         convolver.buffer = noiseBuffer;     
 
-        mainGain.gain.setValueAtTime(0.5, startTime + 0.0015)
-        mainGain.gain.setValueAtTime(0.3, startTime + 0.0339)
+        mainGain.gain.setValueAtTime(0.3, startTime + 0.0015)
+        mainGain.gain.setValueAtTime(0.1, startTime + 0.0339)
 
         highPassFilter.gain.setValueAtTime(0, startTime);
         highPassFilter.gain.setValueAtTime(100, startTime+0.0102);
@@ -639,12 +639,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
         compressor.connect(audioCtx.destination)
 
         mainGain.gain.setValueAtTime(0, audioCtx.currentTime + noteStart + 1)
-        mainGain.gain.linearRampToValueAtTime(0.7, audioCtx.currentTime + 0.15 + noteStart+ 1)
-        mainGain.gain.linearRampToValueAtTime(0.5, audioCtx.currentTime + 0.5 + noteStart+ 1)
-        secondGain.gain.linearRampToValueAtTime(0.7, audioCtx.currentTime + 0.15 + noteStart+ 1)
-        secondGain.gain.linearRampToValueAtTime(0.5, audioCtx.currentTime + 0.5 + noteStart+ 1)
-        thirdGain.gain.linearRampToValueAtTime(0.7, audioCtx.currentTime + 0.15 + noteStart+ 1)
-        thirdGain.gain.linearRampToValueAtTime(0.5, audioCtx.currentTime + 0.5 + noteStart+ 1)
+        mainGain.gain.linearRampToValueAtTime(0.4, audioCtx.currentTime + 0.15 + noteStart+ 1)
+        mainGain.gain.linearRampToValueAtTime(0.2, audioCtx.currentTime + 0.5 + noteStart+ 1)
+        secondGain.gain.linearRampToValueAtTime(0.4, audioCtx.currentTime + 0.15 + noteStart+ 1)
+        secondGain.gain.linearRampToValueAtTime(0.2, audioCtx.currentTime + 0.5 + noteStart+ 1)
+        thirdGain.gain.linearRampToValueAtTime(0.4, audioCtx.currentTime + 0.15 + noteStart+ 1)
+        thirdGain.gain.linearRampToValueAtTime(0.2, audioCtx.currentTime + 0.5 + noteStart+ 1)
         moog.automate("cutoff", 0, 0, audioCtx.currentTime + noteStart+ 1)
         moog.automate("cutoff", 0.1, 1000, audioCtx.currentTime + noteStart+ 1)
         moog.automate("cutoff", 0.06, 3000, audioCtx.currentTime + 1 + noteStart+ 1)
@@ -749,7 +749,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         var osc3 = audioCtx.createOscillator();
         var gainOsc3 = audioCtx.createGain();
   
-          filterGain.gain.setValueAtTime(1, startTime);
+          filterGain.gain.setValueAtTime(0.5, startTime );
           filterGain.gain.exponentialRampToValueAtTime(0.01, startTime + 0.2);
   
           osc3.type = 'triangle';
