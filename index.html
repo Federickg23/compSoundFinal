@@ -10,12 +10,13 @@
     <script src="https://cdn.jsdelivr.net/npm/@magenta/music@^1.0.0"></script>
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/tunajs/1.0.1/tuna-min.js" type="text/javascript"></script> -->
     <body>
-
-
+	    
         <h1>Computational Sound Final Project</h1>
         <h3>By Federick Gonzalez, Yael Cohen, and Bryanna Geiger</h3>
+	    
+	<button>Play</button>
+	<input id="nValue" type="range" min=1 max=26 value="1" selected> Choose the N to choose the order of the Markov Chain!</input>
 
-       
         <b><label class="note" for="instrument">Instrument type:</label></b>
         <select class="note" name="instrument" id="instrument">
             <option class="note" value="1">Low Brass</option>
@@ -30,11 +31,6 @@
         </select>
         <br>
         
-	<button>Play</button>
-	<input id="nValue" type="range" min=1 max=26 value="1" selected> Choose the N to choose the order of the Markov Chain!</input>
-
-	    
-    
     </body>
 
 </html>
