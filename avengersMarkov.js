@@ -331,7 +331,7 @@ function midiToFreq(m) {
 
 function midiToChar(m) {
   return String.fromCharCode(m);
-}
+} 
 
 function playNotes(noteList) {
     noteList = mm.sequences.unquantizeSequence(noteList)
@@ -357,8 +357,11 @@ function genMarkNotes(n) {
   var noteList = HIGH_STRINGS.notes;
   var outNoteList = [];
   var text = "";
+  var offset = 0;
   for (var i = 0; i < noteList.length; i++) {
     text += midiToChar(noteList[i].pitch);
+    outNoteList.push({pitch: noteList[i].pitch, startTime: noteList[i].startTime, endTime:noteList[i].endTime })
+    offset = noteList[i].endTime
   }
 
   console.log(text)
@@ -366,7 +369,7 @@ function genMarkNotes(n) {
   ngrams = genNGram(text, n);
 
   var current = "";
-  var offset = 0;
+  // var offset = 0;
 
   // Start with an arbitrary ngram
   for (var i = 0; i < n; i++) {
