@@ -217,30 +217,11 @@ HIGH_STRINGS = {
     
     LOW_WINDS = {
     notes: [
-    {pitch: 76, startTime: 0.0, endTime: 0.25},
-    {pitch: 76, startTime: 0.25, endTime: 0.5},
-    {pitch: 76, startTime: 1.0, endTime: 1.25},
-    {pitch: 76, startTime: 1.25, endTime: 1.5},
-    {pitch: 76, startTime: 2.0, endTime: 2.25},
-    {pitch: 76, startTime: 2.25, endTime: 2.5},
-    {pitch: 79, startTime: 3.0, endTime: 3.25},
-    {pitch: 79, startTime: 3.25, endTime: 3.5},
-    {pitch: 78, startTime: 3.5, endTime: 3.75},
-    {pitch: 78, startTime: 3.75, endTime: 4.0},
-    {pitch: 81, startTime: 4.0, endTime: 4.25},
-    {pitch: 81, startTime: 4.25, endTime: 4.5},
-    {pitch: 81, startTime: 5.0, endTime: 5.25},
-    {pitch: 81, startTime: 5.25, endTime: 5.5},
-    {pitch: 76, startTime: 6.0, endTime: 6.25},
-    {pitch: 76, startTime: 6.25, endTime: 6.5},
-    {pitch: 79, startTime: 7.0, endTime: 7.25},
-    {pitch: 79, startTime: 7.25, endTime: 7.5},
-    {pitch: 78, startTime: 7.5, endTime: 7.75},
-    {pitch: 78, startTime: 7.75, endTime: 8.0},
-    {pitch: 81, startTime: 8.0, endTime: 8.25},
-    {pitch: 81, startTime: 8.25, endTime: 8.5},
-    {pitch: 81, startTime: 9.0, endTime: 9.25},
-    {pitch: 81, startTime: 9.25, endTime: 9.5},
+    {pitch: 59, startTime: 0.0, endTime: 3.5},
+    {pitch: 54, startTime: 3.5, endTime: 4.0},
+    {pitch: 55, startTime: 4.0, endTime: 6.0},
+    {pitch: 52, startTime: 6.0, endTime: 8.0},
+    {pitch: 55, startTime: 8.0, endTime: 10.0},
     {pitch: 43, startTime: 10.0, endTime: 11.0},
     {pitch: 45, startTime: 11.0, endTime: 12.0},
     {pitch: 40, startTime: 12.0, endTime: 18.0},
@@ -403,8 +384,8 @@ HIGH_STRINGS = {
             this.mainGain.gain.setValueAtTime(0, note.startTime+offset)
     
             //sound envelope
-            this.mainGain.gain.linearRampToValueAtTime(0.5, note.startTime+offset + 0.0015)
-            this.mainGain.gain.linearRampToValueAtTime(0.3, note.startTime+offset + 0.0339)
+            this.mainGain.gain.linearRampToValueAtTime(0.25, note.startTime+offset + 0.0015)
+            this.mainGain.gain.linearRampToValueAtTime(0.15, note.startTime+offset + 0.0339)
     
             //Filter envelope
             this.lowpassFilter.gain.setValueAtTime(0, note.startTime+offset);
@@ -515,8 +496,8 @@ HIGH_STRINGS = {
             this.mainGain.gain.setValueAtTime(0, note.startTime+offset)
     
             //sound envelope
-            this.mainGain.gain.linearRampToValueAtTime(0.5, note.startTime+offset + 0.0015)
-            this.mainGain.gain.linearRampToValueAtTime(0.3, note.startTime+offset + 0.0339)
+            this.mainGain.gain.linearRampToValueAtTime(0.25, note.startTime+offset + 0.0015)
+            this.mainGain.gain.linearRampToValueAtTime(0.15, note.startTime+offset + 0.0339)
     
             //Filter envelope
             this.lowpassFilter.gain.setValueAtTime(0, note.startTime+offset);
@@ -634,8 +615,8 @@ HIGH_STRINGS = {
             this.mainGain.gain.setValueAtTime(0, note.startTime+offset)
     
             //sound envelope
-            this.mainGain.gain.linearRampToValueAtTime(0.5, note.startTime+offset + 0.0015)
-            this.mainGain.gain.linearRampToValueAtTime(0.3, note.startTime+offset + 0.0339)
+            this.mainGain.gain.linearRampToValueAtTime(0.25, note.startTime+offset + 0.0015)
+            this.mainGain.gain.linearRampToValueAtTime(0.15, note.startTime+offset + 0.0339)
     
             //Filter envelope
             this.lowpassFilter.gain.setValueAtTime(0, note.startTime+offset);
