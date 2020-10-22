@@ -223,7 +223,7 @@ HIGH_STRINGS = {
     {pitch: 52, startTime: 6.0, endTime: 8.0},
     {pitch: 55, startTime: 8.0, endTime: 10.0},
     {pitch: 43, startTime: 10.0, endTime: 11.0},
-    {pitch: 45, startTime: 11.0, endTime: 12.0},        
+    {pitch: 45, startTime: 11.0, endTime: 12.0},
     {pitch: 64, startTime: 12.0, endTime: 12.25},
     {pitch: 67, startTime: 12.25, endTime: 12.5},
     {pitch: 67, startTime: 12.5, endTime: 12.75},
