@@ -380,10 +380,10 @@ HIGH_STRINGS = {
 
         brassPlay(note){
             var f = midiToFreq(note.pitch);
-            if (this.high)
-                f = f; 
-            else 
-                f = f/2; 
+            // if (this.high)
+            //     f = f; 
+            // else 
+            //     f = f/2; 
 
             console.log("frequency: " + f);
             console.log("high: " + this.high);
@@ -492,10 +492,10 @@ HIGH_STRINGS = {
 
         windPlay(note){
             var f = midiToFreq(note.pitch);
-            if (this.high)
-                f = f; 
-            else 
-                f = f/2; 
+            // if (this.high)
+            //     f = f; 
+            // else 
+            //     f = f/2; 
 
             console.log("frequency: " + f);
             console.log("high: " + this.high);
@@ -611,10 +611,10 @@ HIGH_STRINGS = {
 
         stringPlay(note){
             var f = midiToFreq(note.pitch);
-            if (this.high)
-                f = f; 
-            else 
-                f = f/2; 
+            // if (this.high)
+            //     f = f; 
+            // else 
+            //     f = f/2; 
 
             console.log("frequency: " + f);
             console.log("high: " + this.high);
@@ -676,7 +676,7 @@ function playNotes(noteList) {
 }
 
 function playNote(note, gain, osc) {
-    gain.gain.setTargetAtTime(0.7, note.startTime+offset, 0.01)
+    gain.gain.setTargetAtTime(0.8, note.startTime+offset, 0.01)
     osc.frequency.setTargetAtTime(midiToFreq(note.pitch), note.startTime+offset, 0.001)
     gain.gain.setTargetAtTime(0, note.endTime+offset-0.05, 0.01)
 
