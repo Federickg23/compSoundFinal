@@ -665,6 +665,8 @@ HIGH_STRINGS = {
 //   return String.fromCharCode(m);
 // }
 
+var offset = 1;
+
 function playNotes(noteList) {
     noteList = mm.sequences.unquantizeSequence(noteList)
     console.log(noteList.notes)
