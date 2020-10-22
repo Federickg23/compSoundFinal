@@ -296,6 +296,9 @@ HIGH_STRINGS = {
     totalTime: 19.5
     };
 
+    var offset = 1;
+
+
     class Player {
         constructor(name) {
             this.name = name;
@@ -656,16 +659,11 @@ HIGH_STRINGS = {
     function midiToFreq(m) {
         return Math.pow(2, (m - 69) / 12) * 440;
     }
-   
-
-//     var offset = 1;
 
 
 // function midiToChar(m) {
 //   return String.fromCharCode(m);
 // }
-
-var offset = 1;
 
 function playNotes(noteList) {
     noteList = mm.sequences.unquantizeSequence(noteList)
