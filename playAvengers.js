@@ -692,36 +692,36 @@ let instruments = [HIGH_BRASS, LOW_BRASS, HIGH_WINDS, LOW_WINDS, HIGH_STRINGS, L
 // new Brass('trumpet', false), new Brass('trumpet', false), new Brass('trumpet', false), new Brass('trumpet', false)];
 
 
-const playButton = document.querySelector('button');
-playButton.addEventListener('click', function() {
-    // audioCtx = new (window.AudioContext || window.webkitAudioContext)
+// const playButton = document.querySelector('button');
+// playButton.addEventListener('click', function() {
+//     // audioCtx = new (window.AudioContext || window.webkitAudioContext)
 
-    instruments.forEach(notesList => {
-        // osc = audioCtx.createOscillator();
-        // gainNode = audioCtx.createGain();
-        // osc.connect(gainNode).connect(audioCtx.destination);
-        // osc.start()
-        // gainNode.gain.value = 0;
+//     instruments.forEach(notesList => {
+//         // osc = audioCtx.createOscillator();
+//         // gainNode = audioCtx.createGain();
+//         // osc.connect(gainNode).connect(audioCtx.destination);
+//         // osc.start()
+//         // gainNode.gain.value = 0;
     
-        var notes = notesList.notes;
-        trumpet = new Brass('trumpet', true);
-        trombone = new Brass('trombone', false);
-        flute = new Wind('flute', true);
-        bassClarinet = new Wind('bass clarinet', false);
-        violin = new String('violin', true);
-        cello = new String('cello', false);
+//         var notes = notesList.notes;
+//         trumpet = new Brass('trumpet', true);
+//         trombone = new Brass('trombone', false);
+//         flute = new Wind('flute', true);
+//         bassClarinet = new Wind('bass clarinet', false);
+//         violin = new String('violin', true);
+//         cello = new String('cello', false);
 
-        notes.forEach(note => {
-            trumpet.brassPlay(note);
-            trombone.brassPlay(note);
-            flute.windPlay(note);
-            bassClarinet.windPlay(note);
-            violin.stringPlay(note);
-            cello.stringPlay(note);
-        });
-    });
+//         notes.forEach(note => {
+//             trumpet.brassPlay(note);
+//             trombone.brassPlay(note);
+//             flute.windPlay(note);
+//             bassClarinet.windPlay(note);
+//             violin.stringPlay(note);
+//             cello.stringPlay(note);
+//         });
+//     });
 
-}, false);
+// }, false);
 
 
 // let instruments = [HIGH_BRASS, LOW_BRASS]
