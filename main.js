@@ -930,30 +930,63 @@ document.addEventListener("DOMContentLoaded", function(event) {
     
     const playButton = document.querySelector('button');
     playButton.addEventListener('click', function() {
-        var n = 0;
-        begin = audioCtx.currentTime; 
-        n = document.getElementById("nValue").value;
+    // audioCtx = new (window.AudioContext || window.webkitAudioContext)
 
-        console.log("n: " + n);
-        for( var i = 0; i < 7; i++){
-            noteList = genMarkNotes(Number(n), i);
-            console.log(noteList)
-            noteList.forEach(note => {
-                if (i == 0)
-                    stringNotes(note, true);
-                else if ( i == 1)
-                    brassNotes(note, true);
-                else if ( i == 2) 
-                    windNotes(note, true);
-                else if (i == 3)
-                    stringNotes(note, false);
-                else if (i == 4)
-                    windNotes(note, false)
-                else if ( i == 5)
-                    brassNotes(note, false)
-                else   
-                    percussionNotes(note)
-            });
-        }
-    }, false);
+    instruments.forEach(notesList => {
+        // osc = audioCtx.createOscillator();
+        // gainNode = audioCtx.createGain();
+        // osc.connect(gainNode).connect(audioCtx.destination);
+        // osc.start()
+        // gainNode.gain.value = 0;
+    
+        var notes = notesList.notes;
+        trumpet = new Brass('trumpet', true);
+        trombone = new Brass('trombone', false);
+        flute = new Wind('flute', true);
+        bassClarinet = new Wind('bass clarinet', false);
+        violin = new String('violin', true);
+        cello = new String('cello', false);
+
+        notes.forEach(note => {
+            trumpet.brassPlay(note);
+            trombone.brassPlay(note);
+            flute.windPlay(note);
+            bassClarinet.windPlay(note);
+            violin.stringPlay(note);
+            cello.stringPlay(note);
+        });
+    });
+
+}, false);
+    
+    
+    
+//     const playButton = document.querySelector('button');
+//     playButton.addEventListener('click', function() {
+//         var n = 0;
+
+//         n = document.getElementById("nValue").value;
+
+//         console.log("n: " + n);
+//         for( var i = 0; i < 7; i++){
+//             noteList = genMarkNotes(Number(n), i);
+//             console.log(noteList)
+//             noteList.forEach(note => {
+//                 if (i == 0)
+//                     stringNotes(note, true);
+//                 else if ( i == 1)
+//                     brassNotes(note, true);
+//                 else if ( i == 2) 
+//                     windNotes(note, true);
+//                 else if (i == 3)
+//                     stringNotes(note, false);
+//                 else if (i == 4)
+//                     windNotes(note, false)
+//                 else if ( i == 5)
+//                     brassNotes(note, false)
+//                 else   
+//                     percussionNotes(note)
+//             });
+//         }
+//     }, false);
 });
