@@ -978,6 +978,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 else{
                     instrument = usedInstrument[i]
                 }
+                var notes = instruments[i].notes;
 
                 console.log("notes: " + notes);
 
@@ -993,6 +994,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 else{
                     instrument = usedInstrument[i]
                 }
+                var notes = instruments[i].notes;
+
+
                 notes.forEach(note => {
                     instrument.windPlay(note, offset);                
                 });
@@ -1005,6 +1009,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 else{
                     instrument = usedInstrument[i]
                 }
+                var notes = instruments[i].notes;
+
                 notes.forEach(note => {
                     instrument.stringPlay(note, offset);                
                 });
@@ -1017,6 +1023,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 else{
                     instrument = usedInstrument[i]
                 }
+
+                var notes = instruments[i].notes;
+
                 notes.forEach(note => {
                     instrument.stringPlay(note, offset);                
                 });
