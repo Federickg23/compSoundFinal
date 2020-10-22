@@ -1,4 +1,4 @@
-var audioCtx = new (window.AudioContext || window.webkitAudioContext)
+// var audioCtx = new (window.AudioContext || window.webkitAudioContext)
 var osc;
 var gainNode;
 
@@ -658,7 +658,7 @@ HIGH_STRINGS = {
     }
    
 
-    var offset = 1;
+//     var offset = 1;
 
 
 // function midiToChar(m) {
