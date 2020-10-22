@@ -927,66 +927,58 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 break;
         }
     }
-    
+
+
+        
     const playButton = document.querySelector('button');
     playButton.addEventListener('click', function() {
-    // audioCtx = new (window.AudioContext || window.webkitAudioContext)
+        // audioCtx = new (window.AudioContext || window.webkitAudioContext)
 
-    instruments.forEach(notesList => {
-        // osc = audioCtx.createOscillator();
-        // gainNode = audioCtx.createGain();
-        // osc.connect(gainNode).connect(audioCtx.destination);
-        // osc.start()
-        // gainNode.gain.value = 0;
+        for(var i = 0; i < instruments.length; i++){
+            var instrument;
+            if(i == 0){
+                instrument = new Brass('trumpet', true);
+                var notes = instruments[i].notes;
+                notes.forEach(note => {
+                    instrument.brassPlay(note);
+                });
+            }
+            else if (i == 1){
+                instrument = new Brass('trombone', true);
+                var notes = instruments[i].notes;
+                notes.forEach(note => {
+                    instrument.brassPlay(note);
+                });
+                
+            }
+            else if (i == 2){
+                instrument = new Wind('flute', true);
+                notes.forEach(note => {
+                    instrument.windPlay(note);                
+                });
+            }
+            else if (i == 3){
+                instrument = new Wind('bass clarinet', false);
+                notes.forEach(note => {
+                    instrument.windPlay(note);                
+                });
+            }
+            else if (i == 4){
+                instrument = new String('violin', true);
+                notes.forEach(note => {
+                    instrument.stringPlay(note);                
+                });
+            }
+            else if (i == 5){
+                instrument = new String('cello', false);
+                notes.forEach(note => {
+                    instrument.stringPlay(note);                
+                });
+
+            }
+        }
+
     
-        var notes = notesList.notes;
-        trumpet = new Brass('trumpet', true);
-        trombone = new Brass('trombone', false);
-        flute = new Wind('flute', true);
-        bassClarinet = new Wind('bass clarinet', false);
-        violin = new String('violin', true);
-        cello = new String('cello', false);
-
-        notes.forEach(note => {
-            trumpet.brassPlay(note);
-            trombone.brassPlay(note);
-            flute.windPlay(note);
-            bassClarinet.windPlay(note);
-            violin.stringPlay(note);
-            cello.stringPlay(note);
-        });
-    });
-
-}, false);
+    }, false);
     
-    
-    
-//     const playButton = document.querySelector('button');
-//     playButton.addEventListener('click', function() {
-//         var n = 0;
-
-//         n = document.getElementById("nValue").value;
-
-//         console.log("n: " + n);
-//         for( var i = 0; i < 7; i++){
-//             noteList = genMarkNotes(Number(n), i);
-//             console.log(noteList)
-//             noteList.forEach(note => {
-//                 if (i == 0)
-//                     stringNotes(note, true);
-//                 else if ( i == 1)
-//                     brassNotes(note, true);
-//                 else if ( i == 2) 
-//                     windNotes(note, true);
-//                 else if (i == 3)
-//                     stringNotes(note, false);
-//                 else if (i == 4)
-//                     windNotes(note, false)
-//                 else if ( i == 5)
-//                     brassNotes(note, false)
-//                 else   
-//                     percussionNotes(note)
-//             });
-//         }
-//     }, false);
 });

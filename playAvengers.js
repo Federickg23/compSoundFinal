@@ -659,6 +659,7 @@ HIGH_STRINGS = {
     function midiToFreq(m) {
         return Math.pow(2, (m - 69) / 12) * 440;
     }
+   
 
 
 // function midiToChar(m) {
@@ -686,70 +687,4 @@ function charToMidi(c) {
 
 let instruments = [HIGH_BRASS, LOW_BRASS, HIGH_WINDS, LOW_WINDS, HIGH_STRINGS, LOW_STRINGS];
 
-// let instruments = [HIGH_STRINGS, HIGH_BRASS, HIGH_WINDS, LOW_STRINGS, LOW_WINDS, LOW_BRASS, PERCUSSION]
 
-// let players = [new Brass('trumpet', true), new Brass('trombone', false), new Brass('trumpet', false), 
-// new Brass('trumpet', false), new Brass('trumpet', false), new Brass('trumpet', false), new Brass('trumpet', false)];
-
-
-// const playButton = document.querySelector('button');
-// playButton.addEventListener('click', function() {
-//     // audioCtx = new (window.AudioContext || window.webkitAudioContext)
-
-//     instruments.forEach(notesList => {
-//         // osc = audioCtx.createOscillator();
-//         // gainNode = audioCtx.createGain();
-//         // osc.connect(gainNode).connect(audioCtx.destination);
-//         // osc.start()
-//         // gainNode.gain.value = 0;
-    
-//         var notes = notesList.notes;
-//         trumpet = new Brass('trumpet', true);
-//         trombone = new Brass('trombone', false);
-//         flute = new Wind('flute', true);
-//         bassClarinet = new Wind('bass clarinet', false);
-//         violin = new String('violin', true);
-//         cello = new String('cello', false);
-
-//         notes.forEach(note => {
-//             trumpet.brassPlay(note);
-//             trombone.brassPlay(note);
-//             flute.windPlay(note);
-//             bassClarinet.windPlay(note);
-//             violin.stringPlay(note);
-//             cello.stringPlay(note);
-//         });
-//     });
-
-// }, false);
-
-
-// let instruments = [HIGH_BRASS, LOW_BRASS]
-
-// // let instruments = [HIGH_STRINGS, HIGH_BRASS, HIGH_WINDS, LOW_STRINGS, LOW_WINDS, LOW_BRASS, PERCUSSION]
-
-// let players = [new Brass('trumpet', false), new Brass('trombone', false)]
-
-// // let players = [new Brass('violin', true), new Brass('trumpet', false), new Brass('flute', false), new Brass('cello', false), new Brass('bass clarinet', false), new Brass('trombone', false), new Brass('percussiom', false)]
-
-// const playButton = document.querySelector('button');
-// playButton.addEventListener('click', function() {
-//     // audioCtx = new (window.AudioContext || window.webkitAudioContext)
-//     // i = 0;
-//     instruments.forEach(notesList => {
-//         // osc = audioCtx.createOscillator();
-//         // gainNode = audioCtx.createGain();
-//         // osc.connect(gainNode).connect(audioCtx.destination);
-//         // osc.start()
-//         // gainNode.gain.value = 0;
-    
-//         var notes = notesList.notes;
-//         // player = players[i];
-//         // i++;
-//         // console.log("player name: " + player.name);
-//         notes.forEach(note => {
-//             Brass.play(note);
-//         });
-//     });
-
-// }, false);
