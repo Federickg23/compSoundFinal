@@ -653,7 +653,7 @@ function playNotes(noteList) {
 }
 
 function playNote(note, gain, osc) {
-    gain.gain.setTargetAtTime(0.8, note.startTime+offset, 0.01)
+    gain.gain.setTargetAtTime(0.4, note.startTime+offset, 0.01)
     osc.frequency.setTargetAtTime(midiToFreq(note.pitch), note.startTime+offset, 0.001)
     gain.gain.setTargetAtTime(0, note.endTime+offset-0.05, 0.01)
 
