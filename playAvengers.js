@@ -2,6 +2,7 @@
 var osc;
 var gainNode;
 
+//hello - Adele
 
 HIGH_STRINGS = {
     notes: [
