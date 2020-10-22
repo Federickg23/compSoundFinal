@@ -944,7 +944,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 });
             }
             else if (i == 1){
-                instrument = new Brass('trombone', true);
+                instrument = new Brass('trombone', false);
                 var notes = instruments[i].notes;
                 notes.forEach(note => {
                     instrument.brassPlay(note);
