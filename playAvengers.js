@@ -452,7 +452,7 @@ function charToMidi(c) {
   return c.charCodeAt();
 }
 
-let instruments = [HIGH_BRASS]
+let instruments = [HIGH_BRASS, LOW_BRASS]
 
 // let instruments = [HIGH_STRINGS, HIGH_BRASS, HIGH_WINDS, LOW_STRINGS, LOW_WINDS, LOW_BRASS, PERCUSSION]
 
@@ -472,9 +472,11 @@ playButton.addEventListener('click', function() {
         // gainNode.gain.value = 0;
     
         var notes = notesList.notes;
-        brass = new Brass('trumpet', false);
+        trumpet = new Brass('trumpet', true);
+        trombone = new Brass('trombone', false);
         notes.forEach(note => {
-            brass.brassPlay(note);
+            trumpet.brassPlay(note);
+            trombone.brassPlay(note);
         });
     });
 
