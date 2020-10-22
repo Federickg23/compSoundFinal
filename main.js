@@ -940,7 +940,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         if (usedInstrument.length > 0 ){
             createNew = false; 
         }
-        for(var i = 0; i < instruments.length; i++){
+        for(var i = 2; i < instruments.length; i++){
             var instrument;
             if(i == 0){
                 if(createNew){
