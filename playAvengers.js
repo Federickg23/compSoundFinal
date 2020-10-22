@@ -223,7 +223,7 @@ HIGH_STRINGS = {
     {pitch: 52, startTime: 6.0, endTime: 8.0},
     {pitch: 55, startTime: 8.0, endTime: 10.0},
     {pitch: 43, startTime: 10.0, endTime: 11.0},
-    {pitch: 45, startTime: 11.0, endTime: 12.0}
+    {pitch: 45, startTime: 11.0, endTime: 12.0},        
     {pitch: 64, startTime: 12.0, endTime: 12.25},
     {pitch: 67, startTime: 12.25, endTime: 12.5},
     {pitch: 67, startTime: 12.5, endTime: 12.75},
@@ -297,7 +297,7 @@ HIGH_STRINGS = {
     // totalTime: 19.5
     // };
 
-    var offset = 1;
+    
 
 
     class Player {
@@ -368,6 +368,8 @@ HIGH_STRINGS = {
             this.oscSecondary2.start()
             this.oscSecondary3.start()
             this.lfo.start()
+
+            this.mainGain.gain.setValueAtTime(0,0); 
     
             //Throw all the bois in activeOscillators so they can be stopped, might need more info in here
             //might also need to rewrite keyup for other methods
@@ -378,15 +380,8 @@ HIGH_STRINGS = {
     
         }
 
-        brassPlay(note){
+        brassPlay(note , offset){
             var f = midiToFreq(note.pitch);
-            // if (this.high)
-            //     f = f; 
-            // else 
-            //     f = f/2; 
-
-            console.log("frequency: " + f);
-            console.log("high: " + this.high);
 
 
             this.oscMain1.frequency.setTargetAtTime(f, note.startTime+offset, 0.001)
@@ -487,18 +482,21 @@ HIGH_STRINGS = {
             this.oscSecondary2.start()
             this.oscSecondary3.start()
             this.lfo.start()
+            this.mainGain.gain.setValueAtTime(0,0);
+            this.secondGain.gain.setValueAtTime(0,0);
+            this.thirdGain.gain.setValueAtTime(0,0);
 
         }
 
-        windPlay(note){
+        windPlay(note , offset){
             var f = midiToFreq(note.pitch);
             // if (this.high)
             //     f = f; 
             // else 
             //     f = f/2; 
 
-            console.log("frequency: " + f);
-            console.log("high: " + this.high);
+            // console.log("frequency: " + f);
+            // console.log("high: " + this.high);
 
 
             this.oscMain1.frequency.setTargetAtTime(f, note.startTime+offset, 0.001)
@@ -599,6 +597,10 @@ HIGH_STRINGS = {
             this.oscSecondary2.start()
             this.oscSecondary3.start()
             this.lfo.start()
+
+            this.mainGain.gain.setValueAtTime(0,0);
+            this.secondGain.gain.setValueAtTime(0,0);
+            this.thirdGain.gain.setValueAtTime(0,0);
     
             //Throw all the bois in activeOscillators so they can be stopped, might need more info in here
             //might also need to rewrite keyup for other methods
@@ -609,15 +611,15 @@ HIGH_STRINGS = {
     
         }
 
-        stringPlay(note){
+        stringPlay(note , offset){
             var f = midiToFreq(note.pitch);
             // if (this.high)
             //     f = f; 
             // else 
             //     f = f/2; 
 
-            console.log("frequency: " + f);
-            console.log("high: " + this.high);
+            // console.log("frequency: " + f);
+            // console.log("high: " + this.high);
 
 
             this.oscMain1.frequency.setTargetAtTime(f, note.startTime+offset, 0.001)
@@ -686,6 +688,6 @@ function charToMidi(c) {
   return c.charCodeAt();
 }
 
-let instruments = [HIGH_BRASS, LOW_BRASS, HIGH_WINDS, LOW_WINDS, HIGH_STRINGS, LOW_STRINGS];
+var instruments = [HIGH_BRASS, LOW_BRASS, HIGH_WINDS, LOW_WINDS, HIGH_STRINGS, LOW_STRINGS];
 
 

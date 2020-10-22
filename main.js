@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     
     audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     tuna = new Tuna(audioCtx);
-    console.log(tuna);
+    // console.log(tuna);
 
     chorus = new tuna.Chorus({
         rate: 1.5,
@@ -88,7 +88,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     function keyDown(event) {
         const key = (event.detail || event.which).toString();
-        console.log(key);
+        // console.log(key);
         if (keyboardFrequencyMap[key] && !activeOscillators[key]) {
           playNote(key);
         }
@@ -579,7 +579,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             f = midiToFreq(note.pitch)/2;
         else
             f = midiToFreq(note.pitch)/4;
-        console.log(f)
+        // console.log(f)
         var noteStart = begin + note.startTime + 1
         var noteEnd = begin + note.endTime + 1
         var type = "sawtooth";
@@ -895,7 +895,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     function playNote(key){
         var synth = document.getElementById("instrument").value;
-        console.log(synth)
+        // console.log(synth)
         switch(synth){
             case "1":
                 brass(key, false);
@@ -928,54 +928,100 @@ document.addEventListener("DOMContentLoaded", function(event) {
         }
     }
 
-
-        
+    var usedInstrument = []
+    var now; 
+    var offset;
     const playButton = document.querySelector('button');
     playButton.addEventListener('click', function() {
         // audioCtx = new (window.AudioContext || window.webkitAudioContext)
-
+        now = audioCtx.currentTime
+        offset = now + 1 
+        var createNew = true 
+        if (usedInstrument.length > 0 ){
+            createNew = false; 
+        }
         for(var i = 0; i < instruments.length; i++){
             var instrument;
             if(i == 0){
-                instrument = new Brass('trumpet', true);
+                if(createNew){
+                    instrument = new Brass('trumpet', true);
+                    usedInstrument.push(instrument)
+                }
+                else{
+                    instrument = usedInstrument[i]
+                }
                 var notes = instruments[i].notes;
                 notes.forEach(note => {
-                    instrument.brassPlay(note);
+                    instrument.brassPlay(note, offset);
                 });
             }
             else if (i == 1){
-                instrument = new Brass('trombone', false);
+                if(createNew){
+                    instrument = new Brass('trombone', false);
+                    usedInstrument.push(instrument)
+                }
+                else{
+                    instrument = usedInstrument[i]
+                }
                 var notes = instruments[i].notes;
                 notes.forEach(note => {
-                    instrument.brassPlay(note);
+                    instrument.brassPlay(note, offset);
                 });
                 
             }
             else if (i == 2){
-                instrument = new Wind('flute', true);
+                ////////
+                if(createNew){
+                    instrument = new Wind('flute', true);
+                    usedInstrument.push(instrument)
+                }
+                else{
+                    instrument = usedInstrument[i]
+                }
+
                 notes.forEach(note => {
-                    instrument.windPlay(note);                
+                    instrument.windPlay(note, offset);                
                 });
             }
             else if (i == 3){
-                instrument = new Wind('bass clarinet', false);
+                if(createNew){
+                    instrument = new Wind('bass clarinet', false);
+                    usedInstrument.push(instrument)
+                }
+                else{
+                    instrument = usedInstrument[i]
+                }
                 notes.forEach(note => {
-                    instrument.windPlay(note);                
+                    instrument.windPlay(note, offset);                
                 });
             }
             else if (i == 4){
-                instrument = new String('violin', true);
+                if(createNew){
+                    instrument = new String('violin', true);
+                    usedInstrument.push(instrument)
+                }
+                else{
+                    instrument = usedInstrument[i]
+                }
                 notes.forEach(note => {
-                    instrument.stringPlay(note);                
+                    instrument.stringPlay(note, offset);                
                 });
             }
             else if (i == 5){
-                instrument = new String('cello', false);
+                if(createNew){
+                    instrument = new String('cello', false);
+                    usedInstrument.push(instrument)
+                }
+                else{
+                    instrument = usedInstrument[i]
+                }
                 notes.forEach(note => {
-                    instrument.stringPlay(note);                
+                    instrument.stringPlay(note, offset);                
                 });
 
             }
+            console.log(instrument)
+            console.log(instruments[i].notes)
         }
 
     
