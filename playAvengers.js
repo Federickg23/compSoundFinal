@@ -384,8 +384,8 @@ HIGH_STRINGS = {
             this.mainGain.gain.setValueAtTime(0, note.startTime+offset)
     
             //sound envelope
-            this.mainGain.gain.linearRampToValueAtTime(0.25, note.startTime+offset + 0.0015)
-            this.mainGain.gain.linearRampToValueAtTime(0.15, note.startTime+offset + 0.0339)
+            this.mainGain.gain.linearRampToValueAtTime(0.1, note.startTime+offset + 0.0015)
+            this.mainGain.gain.linearRampToValueAtTime(0.05, note.startTime+offset + 0.0339)
     
             //Filter envelope
             this.lowpassFilter.gain.setValueAtTime(0, note.startTime+offset);
@@ -496,8 +496,8 @@ HIGH_STRINGS = {
             this.mainGain.gain.setValueAtTime(0, note.startTime+offset)
     
             //sound envelope
-            this.mainGain.gain.linearRampToValueAtTime(0.25, note.startTime+offset + 0.0015)
-            this.mainGain.gain.linearRampToValueAtTime(0.15, note.startTime+offset + 0.0339)
+            this.mainGain.gain.linearRampToValueAtTime(0.1, note.startTime+offset + 0.0015)
+            this.mainGain.gain.linearRampToValueAtTime(0.05, note.startTime+offset + 0.0339)
     
             //Filter envelope
             this.lowpassFilter.gain.setValueAtTime(0, note.startTime+offset);
@@ -615,8 +615,8 @@ HIGH_STRINGS = {
             this.mainGain.gain.setValueAtTime(0, note.startTime+offset)
     
             //sound envelope
-            this.mainGain.gain.linearRampToValueAtTime(0.25, note.startTime+offset + 0.0015)
-            this.mainGain.gain.linearRampToValueAtTime(0.15, note.startTime+offset + 0.0339)
+            this.mainGain.gain.linearRampToValueAtTime(0.1, note.startTime+offset + 0.0015)
+            this.mainGain.gain.linearRampToValueAtTime(0.05, note.startTime+offset + 0.0339)
     
             //Filter envelope
             this.lowpassFilter.gain.setValueAtTime(0, note.startTime+offset);
@@ -653,7 +653,7 @@ function playNotes(noteList) {
 }
 
 function playNote(note, gain, osc) {
-    gain.gain.setTargetAtTime(0.4, note.startTime+offset, 0.01)
+    gain.gain.setTargetAtTime(0.8, note.startTime+offset, 0.01)
     osc.frequency.setTargetAtTime(midiToFreq(note.pitch), note.startTime+offset, 0.001)
     gain.gain.setTargetAtTime(0, note.endTime+offset-0.05, 0.01)
 
