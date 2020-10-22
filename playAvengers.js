@@ -421,6 +421,238 @@ HIGH_STRINGS = {
         }
     }
 
+
+    class Wind extends Player {
+        oscMain1 = audioCtx.createOscillator();
+        oscMain2 = audioCtx.createOscillator();
+        oscSecondary1 = audioCtx.createOscillator();
+        oscSecondary2 = audioCtx.createOscillator();
+        oscSecondary3 = audioCtx.createOscillator();
+        lfo = audioCtx.createOscillator(); 
+        synthType = "triangle";
+        lowpassFilter = audioCtx.createBiquadFilter();
+        mainGain = audioCtx.createGain(); 
+        secondGain = audioCtx.createGain(); 
+        thirdGain = audioCtx.createGain();  
+        constructor(name, high){
+            super(name);
+            this.high = high;
+            this.windPrep();
+        }
+
+        windPrep(){
+
+            this.lfo.frequency.value = 12; 
+            this.lfo.type = this.synthType;
+            this.oscMain1.type = this.synthType;
+            this.oscMain2.type = this.synthType;
+            this.oscSecondary1.type = this.synthType;
+            this.oscSecondary2.type = this.synthType;
+            this.oscSecondary3.type = this.synthType;
+            //Set to sawtooth because that one sounds the most like a brassy sound
+                
+    
+            this.lowpassFilter.type = "lowpass";
+            //Some nice friendly low warm frequencies for our brass section
+            this.lowpassFilter.Q.value = 20;
+            //Gets rid of weird bumps in the waves, feel free to play w this value
+    
+    
+            this.lfo.connect(this.lowpassFilter.frequency)
+    
+    
+            this.oscMain1.connect(this.lowpassFilter);
+            this.oscMain2.connect(this.lowpassFilter);
+            this.oscSecondary1.connect(this.lowpassFilter);
+            this.oscSecondary2.connect(this.lowpassFilter);
+            this.oscSecondary3.connect(this.lowpassFilter);
+    
+            //Connect to moog module (from tunajs) and convolver for funky fresh sounds 
+            this.lowpassFilter.connect(this.mainGain);
+            // mainGain.connect(moog)
+            // moog.connect(secondGain)
+            // secondGain.connect(convolver)
+            this.secondGain.connect(this.mainGain);
+            this.thirdGain.connect(this.mainGain)
+            this.mainGain.connect(audioCtx.destination);
+    
+            //TODO: Test if reversing the order in which things are connected changes the sound
+            this.oscMain1.start()
+            this.oscMain2.start()
+            this.oscSecondary1.start()
+            this.oscSecondary2.start()
+            this.oscSecondary3.start()
+            this.lfo.start()
+
+        }
+
+        windPlay(note){
+            var f = midiToFreq(note.pitch);
+            if (this.high)
+                f = f/2; 
+            else 
+                f = f/4; 
+
+            console.log("frequency: " + f);
+            console.log("high: " + this.high);
+
+
+            this.oscMain1.frequency.setTargetAtTime(f, note.startTime+offset, 0.001)
+            this.oscMain2.frequency.setTargetAtTime(f, note.startTime+offset, 0.001)
+            this.oscSecondary1.frequency.setTargetAtTime(f, note.startTime+offset, 0.001)
+            this.oscSecondary2.frequency.setTargetAtTime(f, note.startTime+offset, 0.001)
+            this.oscSecondary3.frequency.setTargetAtTime(f, note.startTime+offset, 0.001)
+    
+    
+            this.oscMain1.detune.setValueAtTime(0.1, note.startTime+offset)
+            this.oscMain2.detune.setValueAtTime(-0.1, note.startTime+offset)
+            this.oscSecondary1.detune.setValueAtTime(10, note.startTime+offset)
+            this.oscSecondary2.detune.setValueAtTime(9.9, note.startTime+offset)
+            this.oscSecondary3.detune.setValueAtTime(10.1, note.startTime+offset)
+            //Basically trying to make the timbre of a brass sound, not sure if it works? Can 
+            //def play around with these as well
+    
+            this.mainGain.gain.setValueAtTime(0, note.startTime+offset)
+    
+            //sound envelope
+            this.mainGain.gain.linearRampToValueAtTime(0.5, note.startTime+offset + 0.0015)
+            this.mainGain.gain.linearRampToValueAtTime(0.3, note.startTime+offset + 0.0339)
+    
+            //Filter envelope
+            this.lowpassFilter.gain.setValueAtTime(0, note.startTime+offset);
+            this.lowpassFilter.gain.linearRampToValueAtTime(100, note.startTime+offset+0.0102);
+            this.lowpassFilter.gain.linearRampToValueAtTime(73, note.startTime+offset+1.35);
+            this.lowpassFilter.frequency.setValueAtTime(0, note.startTime+offset);
+            this.lowpassFilter.frequency.linearRampToValueAtTime(1000, note.startTime+offset+0.0102);
+            this.lowpassFilter.frequency.setValueAtTime(700, note.startTime+offset+1.35);
+    
+            this.mainGain.gain.setTargetAtTime(0, note.endTime+offset-0.05, 0.01)
+            this.secondGain.gain.setTargetAtTime(0, note.endTime+offset-0.05, 0.01)
+            this.thirdGain.gain.setTargetAtTime(0, note.endTime+offset-0.05, 0.01)
+    
+        }
+    }
+
+
+    class String extends Player {
+        oscMain1 = audioCtx.createOscillator();
+        oscMain2 = audioCtx.createOscillator();
+        oscSecondary1 = audioCtx.createOscillator();
+        oscSecondary2 = audioCtx.createOscillator();
+        oscSecondary3 = audioCtx.createOscillator();
+        lfo = audioCtx.createOscillator(); 
+        synthType = "sawtooth";
+        lowpassFilter = audioCtx.createBiquadFilter();
+        mainGain = audioCtx.createGain(); 
+        secondGain = audioCtx.createGain(); 
+        thirdGain = audioCtx.createGain();  
+        constructor(name, high){
+            super(name);
+            this.high = high;
+            this.stringPrep();
+        }
+
+        stringPrep(){
+
+            this.lfo.frequency.value = 12; 
+            this.lfo.type = this.synthType;
+            this.oscMain1.type = this.synthType;
+            this.oscMain2.type = this.synthType;
+            this.oscSecondary1.type = this.synthType;
+            this.oscSecondary2.type = this.synthType;
+            this.oscSecondary3.type = this.synthType;
+            //Set to sawtooth because that one sounds the most like a brassy sound
+                
+    
+            this.lowpassFilter.type = "lowpass";
+            //Some nice friendly low warm frequencies for our brass section
+            this.lowpassFilter.Q.value = 20;
+            //Gets rid of weird bumps in the waves, feel free to play w this value
+    
+    
+            this.lfo.connect(this.lowpassFilter.frequency)
+    
+    
+            this.oscMain1.connect(this.lowpassFilter);
+            this.oscMain2.connect(this.lowpassFilter);
+            this.oscSecondary1.connect(this.lowpassFilter);
+            this.oscSecondary2.connect(this.lowpassFilter);
+            this.oscSecondary3.connect(this.lowpassFilter);
+    
+            //Connect to moog module (from tunajs) and convolver for funky fresh sounds 
+            this.lowpassFilter.connect(this.mainGain);
+            // mainGain.connect(moog)
+            // moog.connect(secondGain)
+            // secondGain.connect(convolver)
+            this.secondGain.connect(this.mainGain);
+            this.thirdGain.connect(this.mainGain)
+            this.mainGain.connect(audioCtx.destination);
+    
+            //TODO: Test if reversing the order in which things are connected changes the sound
+            this.oscMain1.start()
+            this.oscMain2.start()
+            this.oscSecondary1.start()
+            this.oscSecondary2.start()
+            this.oscSecondary3.start()
+            this.lfo.start()
+    
+            //Throw all the bois in activeOscillators so they can be stopped, might need more info in here
+            //might also need to rewrite keyup for other methods
+            // activeOscillators[key] = {
+            //     oscillators : [oscMain1, oscMain2, oscSecondary1, oscSecondary2, oscSecondary3, lfo],
+            //     gains : [mainGain, secondGain], 
+            // }
+    
+        }
+
+        stringPlay(note){
+            var f = midiToFreq(note.pitch);
+            if (this.high)
+                f = f/2; 
+            else 
+                f = f/4; 
+
+            console.log("frequency: " + f);
+            console.log("high: " + this.high);
+
+
+            this.oscMain1.frequency.setTargetAtTime(f, note.startTime+offset, 0.001)
+            this.oscMain2.frequency.setTargetAtTime(f, note.startTime+offset, 0.001)
+            this.oscSecondary1.frequency.setTargetAtTime(f, note.startTime+offset, 0.001)
+            this.oscSecondary2.frequency.setTargetAtTime(f, note.startTime+offset, 0.001)
+            this.oscSecondary3.frequency.setTargetAtTime(f, note.startTime+offset, 0.001)
+    
+    
+            this.oscMain1.detune.setValueAtTime(0.1, note.startTime+offset)
+            this.oscMain2.detune.setValueAtTime(-0.1, note.startTime+offset)
+            this.oscSecondary1.detune.setValueAtTime(10, note.startTime+offset)
+            this.oscSecondary2.detune.setValueAtTime(9.9, note.startTime+offset)
+            this.oscSecondary3.detune.setValueAtTime(10.1, note.startTime+offset)
+            //Basically trying to make the timbre of a brass sound, not sure if it works? Can 
+            //def play around with these as well
+    
+            this.mainGain.gain.setValueAtTime(0, note.startTime+offset)
+    
+            //sound envelope
+            this.mainGain.gain.linearRampToValueAtTime(0.5, note.startTime+offset + 0.0015)
+            this.mainGain.gain.linearRampToValueAtTime(0.3, note.startTime+offset + 0.0339)
+    
+            //Filter envelope
+            this.lowpassFilter.gain.setValueAtTime(0, note.startTime+offset);
+            this.lowpassFilter.gain.linearRampToValueAtTime(100, note.startTime+offset+0.0102);
+            this.lowpassFilter.gain.linearRampToValueAtTime(73, note.startTime+offset+1.35);
+            this.lowpassFilter.frequency.setValueAtTime(0, note.startTime+offset);
+            this.lowpassFilter.frequency.linearRampToValueAtTime(1000, note.startTime+offset+0.0102);
+            this.lowpassFilter.frequency.setValueAtTime(700, note.startTime+offset+1.35);
+    
+            this.mainGain.gain.setTargetAtTime(0, note.endTime+offset-0.05, 0.01)
+            this.secondGain.gain.setTargetAtTime(0, note.endTime+offset-0.05, 0.01)
+            this.thirdGain.gain.setTargetAtTime(0, note.endTime+offset-0.05, 0.01)
+    
+        }
+    }
+
+
     function midiToFreq(m) {
         return Math.pow(2, (m - 69) / 12) * 440;
     }
@@ -429,9 +661,9 @@ HIGH_STRINGS = {
     var offset = 1;
 
 
-function midiToChar(m) {
-  return String.fromCharCode(m);
-}
+// function midiToChar(m) {
+//   return String.fromCharCode(m);
+// }
 
 function playNotes(noteList) {
     noteList = mm.sequences.unquantizeSequence(noteList)
@@ -452,7 +684,7 @@ function charToMidi(c) {
   return c.charCodeAt();
 }
 
-let instruments = [HIGH_BRASS, LOW_BRASS]
+let instruments = [HIGH_BRASS, LOW_BRASS, HIGH_WINDS, LOW_WINDS, HIGH_STRINGS, LOW_STRINGS];
 
 // let instruments = [HIGH_STRINGS, HIGH_BRASS, HIGH_WINDS, LOW_STRINGS, LOW_WINDS, LOW_BRASS, PERCUSSION]
 
@@ -474,9 +706,18 @@ playButton.addEventListener('click', function() {
         var notes = notesList.notes;
         trumpet = new Brass('trumpet', true);
         trombone = new Brass('trombone', false);
+        flute = new Wind('flute', true);
+        bassClarinet = new Wind('bass clarinet', false);
+        violin = new String('violin', true);
+        cello = new String('cello', false);
+
         notes.forEach(note => {
             trumpet.brassPlay(note);
             trombone.brassPlay(note);
+            flute.windPlay(note);
+            bassClarinet.windPlay(note);
+            violin.stringPlay(note);
+            cello.stringPlay(note);
         });
     });
 
