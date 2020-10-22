@@ -258,18 +258,18 @@ HIGH_STRINGS = {
     
     LOW_BRASS = {
     notes: [
-    {pitch: 85, startTime: 0.0, endTime: 3.5},
-    {pitch: 53, startTime: 3.5, endTime: 4.0},
-    {pitch: 84, startTime: 4.0, endTime: 6.0},
-    {pitch: 69, startTime: 6.0, endTime: 8.0},
-    {pitch: 84, startTime: 8.0, endTime: 10.0},
-    {pitch: 66, startTime: 10.0, endTime: 11.0},
-    {pitch: 78, startTime: 11.0, endTime: 12.0},
-    {pitch: 67, startTime: 12.0, endTime: 18.0},
-    {pitch: 87, startTime: 18.0, endTime: 18.25},
-    {pitch: 69, startTime: 18.25, endTime: 18.5},
-    {pitch: 69, startTime: 19.0, endTime: 19.25}, 
-    {pitch: 53, startTime: 19.25, endTime: 19.5},
+    {pitch: 59, startTime: 0.0, endTime: 3.5},
+    {pitch: 54, startTime: 3.5, endTime: 4.0},
+    {pitch: 55, startTime: 4.0, endTime: 6.0},
+    {pitch: 52, startTime: 6.0, endTime: 8.0},
+    {pitch: 55, startTime: 8.0, endTime: 10.0},
+    {pitch: 43, startTime: 10.0, endTime: 11.0},
+    {pitch: 45, startTime: 11.0, endTime: 12.0},
+    {pitch: 40, startTime: 12.0, endTime: 18.0},
+    {pitch: 50, startTime: 18.0, endTime: 18.25},
+    {pitch: 52, startTime: 18.25, endTime: 18.5},
+    {pitch: 52, startTime: 19.0, endTime: 19.25}, 
+    {pitch: 54, startTime: 19.25, endTime: 19.5},
     ],
     totalTime: 19.5
     };
