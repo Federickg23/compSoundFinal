@@ -979,6 +979,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
                     instrument = usedInstrument[i]
                 }
 
+                console.log("notes: " + notes);
+
                 notes.forEach(note => {
                     instrument.windPlay(note, offset);                
                 });
