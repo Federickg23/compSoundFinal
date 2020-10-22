@@ -640,8 +640,8 @@ HIGH_STRINGS = {
             this.mainGain.gain.setValueAtTime(0, note.startTime+offset)
     
             //sound envelope
-            this.mainGain.gain.linearRampToValueAtTime(0.1, note.startTime+offset + 0.0015)
-            this.mainGain.gain.linearRampToValueAtTime(0.05, note.startTime+offset + 0.0339)
+            this.mainGain.gain.linearRampToValueAtTime(0.2, note.startTime+offset + 0.0015)
+            this.mainGain.gain.linearRampToValueAtTime(0.1, note.startTime+offset + 0.0339)
     
             //Filter envelope
             this.lowpassFilter.gain.setValueAtTime(0, note.startTime+offset);
