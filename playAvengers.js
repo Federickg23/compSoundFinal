@@ -599,6 +599,7 @@ LOW_BRASS = {
             this.fourthGain.gain.linearRampToValueAtTime(0.05, note.startTime + offset + 0.5);
 
 
+            console.log(note.endTime+offset-0.05);
             this.mainGain.gain.setTargetAtTime(0, note.endTime+offset-0.05, 0.01);
             this.secondGain.gain.setTargetAtTime(0, note.endTime+offset-0.05, 0.01);
             this.thirdGain.gain.setTargetAtTime(0, note.endTime+offset-0.05, 0.01);
