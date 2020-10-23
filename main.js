@@ -5,7 +5,13 @@ var drive;
 var chorus;
 var begin; 
 
+
+
+function midiToChar(m){
+    return String.fromCharCode(80)
+}
 document.addEventListener("DOMContentLoaded", function(event) {
+    
     
     audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     tuna = new Tuna(audioCtx);
@@ -933,7 +939,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         now = audioCtx.currentTime
         offset = now + 1 
         var createNew = true 
-        var n = Math.floor(Math.random() * 26) + 1; 
+        var n = Number(document.getElementById('nValue').value); 
         if (usedInstrument.length == 6 ){
             createNew = false; 
         }
@@ -947,9 +953,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 else{
                     instrument = usedInstrument[i]
                 }
-                var notes = instruments[i].notes;
+                var notes = instruments[i].notes.slice();
                 // console.log(notes
                 if(isMarkov){
+                    console.log("Notes length");
+                    console.log(notes.length)
                     notes = genMarkNotes(n, notes);
                 }
                 notes.forEach(note => {
@@ -964,7 +972,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 else{
                     instrument = usedInstrument[i]
                 }
-                var notes = instruments[i].notes;
+                var notes = instruments[i].notes.slice();
                 if(isMarkov){
                     notes = genMarkNotes(n, notes);
                 }
@@ -981,7 +989,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 else{
                     instrument = usedInstrument[i]
                 }
-                var notes = instruments[i].notes;
+                var notes = instruments[i].notes.slice();
                 if(isMarkov){
                     notes = genMarkNotes(n, notes);
                 }
@@ -1000,7 +1008,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 else{
                     instrument = usedInstrument[i]
                 }
-                var notes = instruments[i].notes;
+                var notes = instruments[i].notes.slice();
 
                 if(isMarkov){
                     notes = genMarkNotes(n, notes);
@@ -1012,13 +1020,13 @@ document.addEventListener("DOMContentLoaded", function(event) {
             }
             else if (i == 4){
                 if(createNew){
-                    instrument = new String('violin', true);
+                    instrument = new Strings('violin', true);
                     usedInstrument.push(instrument)
                 }
                 else{
                     instrument = usedInstrument[i]
                 }
-                var notes = instruments[i].notes;
+                var notes = instruments[i].notes.slice();
 
                 if(isMarkov){
                     notes = genMarkNotes(n, notes);
@@ -1029,14 +1037,14 @@ document.addEventListener("DOMContentLoaded", function(event) {
             }
             else if (i == 5){
                 if(createNew){
-                    instrument = new String('cello', false);
+                    instrument = new Strings('cello', false);
                     usedInstrument.push(instrument)
                 }
                 else{
                     instrument = usedInstrument[i]
                 }
 
-                var notes = instruments[i].notes;
+                var notes = instruments[i].notes.slice();
                 if(isMarkov){
                     notes = genMarkNotes(n, notes);
                 }
@@ -1050,6 +1058,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
             console.log(instruments[i].notes)
         }
     } 
+
+    
 
     var usedInstrument = []
     var now; 

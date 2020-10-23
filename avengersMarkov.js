@@ -350,6 +350,7 @@ function charToMidi(c) {
   return c.charCodeAt();
 }
 
+
 function genMarkNotes(n, list) {
   var noteList = list; 
   console.log(list)
@@ -362,16 +363,15 @@ function genMarkNotes(n, list) {
     outNoteList.push({pitch: noteList[i].pitch, startTime: noteList[i].startTime, endTime:noteList[i].endTime })
     offset = noteList[i].endTime
   }
-
   console.log(text)
-
+  console.log(n)
   ngrams = genNGram(text, n);
 
   var current = "";
   // var offset = 0;
 
   // Start with an arbitrary ngram
-  for (var i = 0; i < n; i++) {
+  for (var i = 0; i < noteList.length; i++) {
     current += String.fromCharCode(noteList[i].pitch);
     outNoteList.push({pitch: noteList[i].pitch, startTime: offset, endTime: offset +1});
     offset++;

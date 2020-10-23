@@ -508,7 +508,7 @@ LOW_BRASS = {
     }
 
 
-    class String extends Player {
+    class Strings extends Player {
         oscMain1 = audioCtx.createOscillator();
         oscMain2 = audioCtx.createOscillator();
         oscSecondary1 = audioCtx.createOscillator();
