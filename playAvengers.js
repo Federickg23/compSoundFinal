@@ -2,8 +2,6 @@
 var osc;
 var gainNode;
 
-//hello - Adele
-
 HIGH_STRINGS = {
     notes: [
     {pitch: 76, startTime: 0.0, endTime: 0.25},
@@ -54,7 +52,7 @@ HIGH_STRINGS = {
     totalTime: 19.5
     };
     
-    HIGH_BRASS = {
+HIGH_BRASS = {
     notes: [
     {pitch: 64, startTime: 0.0, endTime: 0.25},
     {pitch: 64, startTime: 0.25, endTime: 0.5},
@@ -104,7 +102,7 @@ HIGH_STRINGS = {
     totalTime: 19.5
     };
     
-    HIGH_WINDS = {
+HIGH_WINDS = {
     notes: [
     {pitch: 76, startTime: 0.0, endTime: 0.25},
     {pitch: 76, startTime: 0.25, endTime: 0.5},
@@ -162,7 +160,7 @@ HIGH_STRINGS = {
     totalTime: 19.5
     };
     
-    LOW_STRINGS = {
+LOW_STRINGS = {
     notes: [
     {pitch: 52, startTime: 0.0, endTime: 0.25},
     {pitch: 52, startTime: 0.25, endTime: 0.5},
@@ -215,7 +213,7 @@ HIGH_STRINGS = {
     totalTime: 19.5
     };
     
-    LOW_WINDS = {
+LOW_WINDS = {
     notes: [
     {pitch: 59, startTime: 0.0, endTime: 3.5},
     {pitch: 54, startTime: 3.5, endTime: 4.0},
@@ -256,7 +254,7 @@ HIGH_STRINGS = {
     totalTime: 19.5
     };
     
-    LOW_BRASS = {
+LOW_BRASS = {
     notes: [
     {pitch: 59, startTime: 0.0, endTime: 3.5},
     {pitch: 54, startTime: 3.5, endTime: 4.0},
@@ -537,11 +535,9 @@ HIGH_STRINGS = {
             this.oscSecondary1.type = this.synthType;
             this.oscSecondary2.type = this.synthType;
             this.oscSecondary3.type = this.synthType;
-            //Set to sawtooth because that one sounds the most like a brassy sound
                 
     
             this.lowpassFilter.type = "lowpass";
-            //Some nice friendly low warm frequencies for our brass section
             this.lowpassFilter.Q.value = 20;
             //Gets rid of weird bumps in the waves, feel free to play w this value
     
@@ -633,14 +629,6 @@ HIGH_STRINGS = {
         return Math.pow(2, (m - 69) / 12) * 440;
     }
    
-
-
-function midiToChar(m) {
-    console.log("hello")
-    console.log(m)
-    console.log(String.fromCharCode('80'));
-    return "A"
-}
 
 function playNotes(noteList) {
     noteList = mm.sequences.unquantizeSequence(noteList)
