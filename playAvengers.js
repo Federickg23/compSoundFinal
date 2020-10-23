@@ -273,29 +273,7 @@ HIGH_STRINGS = {
     ],
     totalTime: 19.5
     };
-    
-    // PERCUSSION = {
-    // notes: [
-    // {pitch: 90, startTime: 0.0, endTime: 1.0},
-    // {pitch: 90, startTime: 1.0, endTime: 2.0},
-    // {pitch: 90, startTime: 2.0, endTime: 3.0},
-    // {pitch: 90, startTime: 4.0, endTime: 5.0},
-    // {pitch: 90, startTime: 5.0, endTime: 6.0},
-    // {pitch: 90, startTime: 6.0, endTime: 7.0},
-    // {pitch: 90, startTime: 8.0, endTime: 9.0},
-    // {pitch: 90, startTime: 9.0, endTime: 10.0},
-    // {pitch: 90, startTime: 10.0, endTime: 11.0},
-    // {pitch: 90, startTime: 11.0, endTime: 12.0},
-    // {pitch: 90, startTime: 12.0, endTime: 13.0},
-    // {pitch: 90, startTime: 13.0, endTime: 14.0},
-    // {pitch: 90, startTime: 14.0, endTime: 15.0},
-    // {pitch: 90, startTime: 16.0, endTime: 17.0}, 
-    // {pitch: 90, startTime: 17.0, endTime: 18.0},
-    // {pitch: 90, startTime: 18.0, endTime: 18.5}, 
-    // {pitch: 90, startTime: 19.0, endTime: 19.5}, 
-    // ],
-    // totalTime: 19.5
-    // };
+
 
     
 
@@ -490,10 +468,6 @@ HIGH_STRINGS = {
 
         windPlay(note , offset){
             var f = midiToFreq(note.pitch);
-            // if (this.high)
-            //     f = f; 
-            // else 
-            //     f = f/2; 
 
             // console.log("frequency: " + f);
             // console.log("high: " + this.high);
@@ -613,10 +587,6 @@ HIGH_STRINGS = {
 
         stringPlay(note , offset){
             var f = midiToFreq(note.pitch);
-            // if (this.high)
-            //     f = f; 
-            // else 
-            //     f = f/2; 
 
             // console.log("frequency: " + f);
             // console.log("high: " + this.high);
