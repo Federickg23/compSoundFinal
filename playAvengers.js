@@ -404,7 +404,7 @@ LOW_BRASS = {
         oscSecondary3 = audioCtx.createOscillator();
         lfo = audioCtx.createOscillator(); 
         synthType = "triangle";
-        lowpassFilter = audioCtx.createBiquadFilter();
+        highpassFilter = audioCtx.createBiquadFilter();
         mainGain = audioCtx.createGain(); 
         secondGain = audioCtx.createGain(); 
         thirdGain = audioCtx.createGain();  
@@ -426,20 +426,19 @@ LOW_BRASS = {
             //Set to triangle because that one sounds the most like a pure wind sound
                 
     
-            this.lowpassFilter.type = "lowpass";
-            this.lowpassFilter.Q.value = 20;
+            this.highpassFilter.type = "highpass";
+            this.highpassFilter.Q.value = 60;
+    
+            this.lfo.connect(this.highpassFilter.frequency)
     
     
-            this.lfo.connect(this.lowpassFilter.frequency)
+            this.oscMain1.connect(this.highpassFilter);
+            this.oscMain2.connect(this.highpassFilter);
+            this.oscSecondary1.connect(this.highpassFilter);
+            this.oscSecondary2.connect(this.highpassFilter);
+            this.oscSecondary3.connect(this.highpassFilter);
     
-    
-            this.oscMain1.connect(this.lowpassFilter);
-            this.oscMain2.connect(this.lowpassFilter);
-            this.oscSecondary1.connect(this.lowpassFilter);
-            this.oscSecondary2.connect(this.lowpassFilter);
-            this.oscSecondary3.connect(this.lowpassFilter);
-    
-            this.lowpassFilter.connect(this.mainGain);
+            this.highpassFilter.connect(this.mainGain);
 
             this.secondGain.connect(this.mainGain);
             this.thirdGain.connect(this.mainGain)
@@ -485,12 +484,13 @@ LOW_BRASS = {
             this.mainGain.gain.linearRampToValueAtTime(0.05, note.startTime+offset + 0.0339)
     
             //Filter envelope
-            this.lowpassFilter.gain.setValueAtTime(0, note.startTime+offset);
-            this.lowpassFilter.gain.linearRampToValueAtTime(100, note.startTime+offset+0.0102);
-            this.lowpassFilter.gain.linearRampToValueAtTime(73, note.startTime+offset+1.35);
-            this.lowpassFilter.frequency.setValueAtTime(0, note.startTime+offset);
-            this.lowpassFilter.frequency.linearRampToValueAtTime(1000, note.startTime+offset+0.0102);
-            this.lowpassFilter.frequency.setValueAtTime(700, note.startTime+offset+1.35);
+            this.highpassFilter.gain.setValueAtTime(0, note.startTime+offset);
+            this.highpassFilter.gain.linearRampToValueAtTime(100, note.startTime+offset+0.0102);
+            this.highpassFilter.gain.linearRampToValueAtTime(73, note.startTime+offset+1.35);
+            this.highpassFilter.frequency.setValueAtTime(0, note.startTime+offset)        
+            // this.lowpassFilter.frequency.setValueAtTime(0, note.startTime+offset);
+            // this.lowpassFilter.frequency.linearRampToValueAtTime(1000, note.startTime+offset+0.0102);
+            // this.lowpassFilter.frequency.setValueAtTime(700, note.startTime+offset+1.35);
     
             this.mainGain.gain.setTargetAtTime(0, note.endTime+offset-0.05, 0.01)
             this.secondGain.gain.setTargetAtTime(0, note.endTime+offset-0.05, 0.01)
@@ -627,5 +627,3 @@ function charToMidi(c) {
 }
 
 var instruments = [HIGH_BRASS, LOW_BRASS, HIGH_WINDS, LOW_WINDS, HIGH_STRINGS, LOW_STRINGS];
-
-
