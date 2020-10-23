@@ -970,7 +970,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 
             }
             else if (i == 2){
-                ////////
                 if(createNew){
                     instrument = new Wind('flute', true);
                     usedInstrument.push(instrument)
@@ -1023,8 +1022,5 @@ document.addEventListener("DOMContentLoaded", function(event) {
             console.log(instrument)
             console.log(instruments[i].notes)
         }
-
-    
-    }, false);
-    
+    }, false); 
 });
