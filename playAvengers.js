@@ -503,15 +503,19 @@ LOW_BRASS = {
     class Strings extends Player {
         oscMain1 = audioCtx.createOscillator();
         oscMain2 = audioCtx.createOscillator();
-        oscSecondary1 = audioCtx.createOscillator();
-        oscSecondary2 = audioCtx.createOscillator();
-        oscSecondary3 = audioCtx.createOscillator();
-        lfo = audioCtx.createOscillator(); 
+        oscMain3 = audioCtx.createOscillator();
+        oscMain4 = audioCtx.createOscillator();
+        oscMain5 = audioCtx.createOscillator();
+        oscMain6 = audioCtx.createOscillator();
+        oscMain7 = audioCtx.createOscillator();
+
         synthType = "sawtooth";
-        lowpassFilter = audioCtx.createBiquadFilter();
-        mainGain = audioCtx.createGain(); 
-        secondGain = audioCtx.createGain(); 
-        thirdGain = audioCtx.createGain();  
+
+        mainGain = audioCtx.createGain()
+        secondGain = audioCtx.createGain()
+        thirdGain = audioCtx.createGain()
+        fourthGain = audioCtx.createGain()
+
         constructor(name, high){
             super(name);
             this.high = high;
@@ -520,43 +524,42 @@ LOW_BRASS = {
 
         stringPrep(){
 
-            this.lfo.frequency.value = 12; 
-            this.lfo.type = this.synthType;
+            
             this.oscMain1.type = this.synthType;
             this.oscMain2.type = this.synthType;
-            this.oscSecondary1.type = this.synthType;
-            this.oscSecondary2.type = this.synthType;
-            this.oscSecondary3.type = this.synthType;
-                
-    
-            this.lowpassFilter.type = "lowpass";
-            this.lowpassFilter.Q.value = 20;    
-    
-            this.lfo.connect(this.lowpassFilter.frequency)
-    
-    
-            this.oscMain1.connect(this.lowpassFilter);
-            this.oscMain2.connect(this.lowpassFilter);
-            this.oscSecondary1.connect(this.lowpassFilter);
-            this.oscSecondary2.connect(this.lowpassFilter);
-            this.oscSecondary3.connect(this.lowpassFilter);
-    
-            this.lowpassFilter.connect(this.mainGain);
+            this.oscMain3.type = this.synthType;
+            this.oscMain4.type = this.synthType;
+            this.oscMain5.type = this.synthType;
+            this.oscMain6.type = this.synthType;
+            this.oscMain7.type = this.synthType;
+
+            this.oscMain1.connect(this.mainGain);
+            this.oscMain2.connect(this.mainGain);
+            this.oscMain3.connect(this.mainGain);
+            this.oscMain4.connect(this.mainGain);
+            this.oscMain5.connect(this.mainGain);
+            this.oscMain6.connect(this.mainGain);
+            this.oscMain7.connect(this.mainGain);
+
 
             this.secondGain.connect(this.mainGain);
             this.thirdGain.connect(this.mainGain)
+            this.fourthGain.connect(this.mainGain);
+
             this.mainGain.connect(audioCtx.destination);
     
-            this.oscMain1.start()
-            this.oscMain2.start()
-            this.oscSecondary1.start()
-            this.oscSecondary2.start()
-            this.oscSecondary3.start()
-            this.lfo.start()
+            this.oscMain1.start();
+            this.oscMain2.start();
+            this.oscMain3.start();
+            this.oscMain4.start();
+            this.oscMain5.start();
+            this.oscMain6.start();
+            this.oscMain7.start();
 
             this.mainGain.gain.setValueAtTime(0,0);
             this.secondGain.gain.setValueAtTime(0,0);
             this.thirdGain.gain.setValueAtTime(0,0);
+            this.fourthGain.gain.setValueAtTime(0,0)
     
         }
 
@@ -567,37 +570,40 @@ LOW_BRASS = {
             // console.log("high: " + this.high);
 
 
-            this.oscMain1.frequency.setTargetAtTime(f, note.startTime+offset, 0.001)
-            this.oscMain2.frequency.setTargetAtTime(f, note.startTime+offset, 0.001)
-            this.oscSecondary1.frequency.setTargetAtTime(f, note.startTime+offset, 0.001)
-            this.oscSecondary2.frequency.setTargetAtTime(f, note.startTime+offset, 0.001)
-            this.oscSecondary3.frequency.setTargetAtTime(f, note.startTime+offset, 0.001)
-    
-    
-            this.oscMain1.detune.setValueAtTime(0.1, note.startTime+offset)
-            this.oscMain2.detune.setValueAtTime(-0.1, note.startTime+offset)
-            this.oscSecondary1.detune.setValueAtTime(10, note.startTime+offset)
-            this.oscSecondary2.detune.setValueAtTime(9.9, note.startTime+offset)
-            this.oscSecondary3.detune.setValueAtTime(10.1, note.startTime+offset)
-    
+            this.oscMain1.frequency.setTargetAtTime(f, note.startTime+offset, 0.001);
+            this.oscMain2.frequency.setTargetAtTime(f, note.startTime+offset, 0.001);
+            this.oscMain3.frequency.setTargetAtTime(f, note.startTime+offset, 0.001);
+            this.oscMain4.frequency.setTargetAtTime(f, note.startTime+offset, 0.001);
+            this.oscMain5.frequency.setTargetAtTime(f, note.startTime+offset, 0.001);
+            this.oscMain6.frequency.setTargetAtTime(f, note.startTime+offset, 0.001);
+            this.oscMain7.frequency.setTargetAtTime(f, note.startTime+offset, 0.001);
+
+            this.oscMain1.detune.setValueAtTime(-0.3, note.startTime+offset);
+            this.oscMain2.detune.setValueAtTime(-0.2, note.startTime+offset);
+            this.oscMain3.detune.setValueAtTime(-0.1, note.startTime+offset);
+            this.oscMain4.detune.setValueAtTime(0, note.startTime+offset);
+            this.oscMain5.detune.setValueAtTime(0.1, note.startTime+offset);
+            this.oscMain6.detune.setValueAtTime(0.2, note.startTime+offset);
+            this.oscMain7.detune.setValueAtTime(0.3, note.startTime+offset);
+
             this.mainGain.gain.setValueAtTime(0, note.startTime+offset)
     
-            //sound envelope
-            this.mainGain.gain.linearRampToValueAtTime(0.2, note.startTime+offset + 0.0015)
-            this.mainGain.gain.linearRampToValueAtTime(0.1, note.startTime+offset + 0.0339)
-    
-            //Filter envelope
-            this.lowpassFilter.gain.setValueAtTime(0, note.startTime+offset);
-            this.lowpassFilter.gain.linearRampToValueAtTime(100, note.startTime+offset+0.0102);
-            this.lowpassFilter.gain.linearRampToValueAtTime(73, note.startTime+offset+1.35);
-            this.lowpassFilter.frequency.setValueAtTime(0, note.startTime+offset);
-            this.lowpassFilter.frequency.linearRampToValueAtTime(1000, note.startTime+offset+0.0102);
-            this.lowpassFilter.frequency.setValueAtTime(700, note.startTime+offset+1.35);
-    
-            this.mainGain.gain.setTargetAtTime(0, note.endTime+offset-0.05, 0.01)
-            this.secondGain.gain.setTargetAtTime(0, note.endTime+offset-0.05, 0.01)
-            this.thirdGain.gain.setTargetAtTime(0, note.endTime+offset-0.05, 0.01)
-    
+
+            this.mainGain.gain.linearRampToValueAtTime(0.1, note.startTime + offset + 0.15);
+            this.mainGain.gain.linearRampToValueAtTime(0.05, note.startTime + offset + 0.5);
+            this.secondGain.gain.linearRampToValueAtTime(0.1, note.startTime + offset + 0.15);
+            this.secondGain.gain.linearRampToValueAtTime(0.05, note.startTime + offset + 0.5);
+            this.thirdGain.gain.linearRampToValueAtTime(0.1, note.startTime + offset + 0.15);
+            this.thirdGain.gain.linearRampToValueAtTime(0.05, note.startTime + offset + 0.5);
+            this.fourthGain.gain.linearRampToValueAtTime(0.1, note.startTime + offset + 0.15);
+            this.fourthGain.gain.linearRampToValueAtTime(0.05, note.startTime + offset + 0.5);
+
+
+            this.mainGain.gain.setTargetAtTime(0, note.endTime+offset-0.05, 0.01);
+            this.secondGain.gain.setTargetAtTime(0, note.endTime+offset-0.05, 0.01);
+            this.thirdGain.gain.setTargetAtTime(0, note.endTime+offset-0.05, 0.01);
+            this.fourthGain.gain.setTargetAtTime(0, note.endTime+offset-0.05, 0.01);
+
         }
     }
 
