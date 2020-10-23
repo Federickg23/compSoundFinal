@@ -7,9 +7,6 @@ var begin;
 
 
 
-function midiToChar(m){
-    return String.fromCharCode(80)
-}
 document.addEventListener("DOMContentLoaded", function(event) {
     
     
@@ -889,6 +886,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             
             for(var i = 0; i < oscillators.length; i++){
                 oscillators[i].stop(audioCtx.currentTime + 0.02)
+                delete oscillators[i]
             }
             for(var g = 0; g < gains.length; g++){
                 gains[g].gain.cancelScheduledValues(audioCtx.currentTime)

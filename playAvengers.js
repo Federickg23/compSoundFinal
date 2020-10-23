@@ -272,9 +272,6 @@ LOW_BRASS = {
     };
 
 
-    
-
-
     class Player {
         constructor(name) {
             this.name = name;
@@ -609,28 +606,6 @@ LOW_BRASS = {
     }
 
 
-function midiToFreq(m) {
-        return Math.pow(2, (m - 69) / 12) * 440;
-}
-   
 
-function playNotes(noteList) {
-    noteList = mm.sequences.unquantizeSequence(noteList)
-    console.log(noteList.notes)
-    noteList.notes.forEach(note => {
-        playNote(note);
-    });
-}
-
-function playNote(note, gain, osc) {
-    gain.gain.setTargetAtTime(0.8, note.startTime+offset, 0.01)
-    osc.frequency.setTargetAtTime(midiToFreq(note.pitch), note.startTime+offset, 0.001)
-    gain.gain.setTargetAtTime(0, note.endTime+offset-0.05, 0.01)
-
-}
-
-function charToMidi(c) {
-  return c.charCodeAt();
-}
 
 var instruments = [HIGH_BRASS, LOW_BRASS, HIGH_WINDS, LOW_WINDS, HIGH_STRINGS, LOW_STRINGS];
