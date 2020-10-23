@@ -1064,10 +1064,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
     var usedInstrument = []
     var now; 
     var offset;
-    const avengersSample = document.getElementById('avenge');
-    avengersSample.addEventListener('click', function(){
-        buttonResponse(false);
-    }); 
+    // const avengersSample = document.getElementById('avenge');
+    // avengersSample.addEventListener('click', function(){
+    //     buttonResponse(false);
+    // }); 
     const markovButton = document.getElementById('markov');
     markovButton.addEventListener('click', function(){
         console.log("clicked")
