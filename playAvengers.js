@@ -578,13 +578,13 @@ LOW_BRASS = {
             this.oscMain6.frequency.setTargetAtTime(f, note.startTime+offset, 0.001);
             this.oscMain7.frequency.setTargetAtTime(f, note.startTime+offset, 0.001);
 
-            this.oscMain1.detune.setValueAtTime(-0.3, note.startTime+offset);
-            this.oscMain2.detune.setValueAtTime(-0.2, note.startTime+offset);
-            this.oscMain3.detune.setValueAtTime(-0.1, note.startTime+offset);
+            this.oscMain1.detune.setValueAtTime(-0.1, note.startTime+offset);
+            this.oscMain2.detune.setValueAtTime(-0.05, note.startTime+offset);
+            this.oscMain3.detune.setValueAtTime(-0.025, note.startTime+offset);
             this.oscMain4.detune.setValueAtTime(0, note.startTime+offset);
-            this.oscMain5.detune.setValueAtTime(0.1, note.startTime+offset);
-            this.oscMain6.detune.setValueAtTime(0.2, note.startTime+offset);
-            this.oscMain7.detune.setValueAtTime(0.3, note.startTime+offset);
+            this.oscMain5.detune.setValueAtTime(0.025, note.startTime+offset);
+            this.oscMain6.detune.setValueAtTime(0.05, note.startTime+offset);
+            this.oscMain7.detune.setValueAtTime(0.01, note.startTime+offset);
 
             this.mainGain.gain.setValueAtTime(0, note.startTime+offset)
     
