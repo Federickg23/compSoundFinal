@@ -1,4 +1,3 @@
-// var audioCtx = new (window.AudioContext || window.webkitAudioContext)
 var osc;
 var gainNode;
 
@@ -424,13 +423,11 @@ LOW_BRASS = {
             this.oscSecondary1.type = this.synthType;
             this.oscSecondary2.type = this.synthType;
             this.oscSecondary3.type = this.synthType;
-            //Set to sawtooth because that one sounds the most like a brassy sound
+            //Set to triangle because that one sounds the most like a pure wind sound
                 
     
             this.lowpassFilter.type = "lowpass";
-            //Some nice friendly low warm frequencies for our brass section
             this.lowpassFilter.Q.value = 20;
-            //Gets rid of weird bumps in the waves, feel free to play w this value
     
     
             this.lfo.connect(this.lowpassFilter.frequency)
@@ -442,16 +439,12 @@ LOW_BRASS = {
             this.oscSecondary2.connect(this.lowpassFilter);
             this.oscSecondary3.connect(this.lowpassFilter);
     
-            //Connect to moog module (from tunajs) and convolver for funky fresh sounds 
             this.lowpassFilter.connect(this.mainGain);
-            // mainGain.connect(moog)
-            // moog.connect(secondGain)
-            // secondGain.connect(convolver)
+
             this.secondGain.connect(this.mainGain);
             this.thirdGain.connect(this.mainGain)
             this.mainGain.connect(audioCtx.destination);
     
-            //TODO: Test if reversing the order in which things are connected changes the sound
             this.oscMain1.start()
             this.oscMain2.start()
             this.oscSecondary1.start()
@@ -483,8 +476,7 @@ LOW_BRASS = {
             this.oscSecondary1.detune.setValueAtTime(10, note.startTime+offset)
             this.oscSecondary2.detune.setValueAtTime(9.9, note.startTime+offset)
             this.oscSecondary3.detune.setValueAtTime(10.1, note.startTime+offset)
-            //Basically trying to make the timbre of a brass sound, not sure if it works? Can 
-            //def play around with these as well
+
     
             this.mainGain.gain.setValueAtTime(0, note.startTime+offset)
     
@@ -538,9 +530,7 @@ LOW_BRASS = {
                 
     
             this.lowpassFilter.type = "lowpass";
-            this.lowpassFilter.Q.value = 20;
-            //Gets rid of weird bumps in the waves, feel free to play w this value
-    
+            this.lowpassFilter.Q.value = 20;    
     
             this.lfo.connect(this.lowpassFilter.frequency)
     
@@ -551,16 +541,12 @@ LOW_BRASS = {
             this.oscSecondary2.connect(this.lowpassFilter);
             this.oscSecondary3.connect(this.lowpassFilter);
     
-            //Connect to moog module (from tunajs) and convolver for funky fresh sounds 
             this.lowpassFilter.connect(this.mainGain);
-            // mainGain.connect(moog)
-            // moog.connect(secondGain)
-            // secondGain.connect(convolver)
+
             this.secondGain.connect(this.mainGain);
             this.thirdGain.connect(this.mainGain)
             this.mainGain.connect(audioCtx.destination);
     
-            //TODO: Test if reversing the order in which things are connected changes the sound
             this.oscMain1.start()
             this.oscMain2.start()
             this.oscSecondary1.start()
@@ -571,13 +557,6 @@ LOW_BRASS = {
             this.mainGain.gain.setValueAtTime(0,0);
             this.secondGain.gain.setValueAtTime(0,0);
             this.thirdGain.gain.setValueAtTime(0,0);
-    
-            //Throw all the bois in activeOscillators so they can be stopped, might need more info in here
-            //might also need to rewrite keyup for other methods
-            // activeOscillators[key] = {
-            //     oscillators : [oscMain1, oscMain2, oscSecondary1, oscSecondary2, oscSecondary3, lfo],
-            //     gains : [mainGain, secondGain], 
-            // }
     
         }
 
@@ -600,8 +579,6 @@ LOW_BRASS = {
             this.oscSecondary1.detune.setValueAtTime(10, note.startTime+offset)
             this.oscSecondary2.detune.setValueAtTime(9.9, note.startTime+offset)
             this.oscSecondary3.detune.setValueAtTime(10.1, note.startTime+offset)
-            //Basically trying to make the timbre of a brass sound, not sure if it works? Can 
-            //def play around with these as well
     
             this.mainGain.gain.setValueAtTime(0, note.startTime+offset)
     
@@ -625,9 +602,9 @@ LOW_BRASS = {
     }
 
 
-    function midiToFreq(m) {
+function midiToFreq(m) {
         return Math.pow(2, (m - 69) / 12) * 440;
-    }
+}
    
 
 function playNotes(noteList) {
