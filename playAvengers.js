@@ -635,9 +635,12 @@ HIGH_STRINGS = {
    
 
 
-// function midiToChar(m) {
-//   return String.fromCharCode(m);
-// }
+function midiToChar(m) {
+    console.log("hello")
+    console.log(m)
+    console.log(String.fromCharCode('80'));
+    return "A"
+}
 
 function playNotes(noteList) {
     noteList = mm.sequences.unquantizeSequence(noteList)
