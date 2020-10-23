@@ -2,8 +2,6 @@
 var osc;
 var gainNode;
 
-//hello - Adele
-
 HIGH_STRINGS = {
     notes: [
     {pitch: 76, startTime: 0.0, endTime: 0.25},
